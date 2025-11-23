@@ -125,31 +125,14 @@ validate_ssl_certificate() {
         return 1
     fi
 
-    # Check if certificate starts with SSL_CERT=
-    if [[ ! "$certificate" =~ ^SSL_CERT= ]]; then
-        return 1
-    fi
-
-    # Extract the value part (everything after SSL_CERT=)
-    local cert_value="${certificate#SSL_CERT=}"
-
-    # Remove surrounding quotes if present
-    cert_value="${cert_value#\"}"
-    cert_value="${cert_value%\"}"
-
-    # Check if the value is not empty
-    if [ -z "$cert_value" ]; then
-        return 1
-    fi
-
     # Check if it's valid base64
-    if ! echo "$cert_value" | base64 -d >/dev/null 2>&1; then
+    if ! echo "$certificate" | base64 -d >/dev/null 2>&1; then
         return 1
     fi
 
     # Try to decode and check if it's valid JSON
     local decoded_json
-    if ! decoded_json=$(echo "$cert_value" | base64 -d 2>/dev/null); then
+    if ! decoded_json=$(echo "$certificate" | base64 -d 2>/dev/null); then
         return 1
     fi
 

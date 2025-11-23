@@ -357,10 +357,10 @@ TRANSLATIONS_RU[node_port_2222_in_use]="Требуемый порт API ноды
 TRANSLATIONS_RU[node_separate_port_2222]="Для отдельной установки ноды порт 2222 должен быть доступен."
 TRANSLATIONS_RU[node_free_port_2222]="Пожалуйста, освободите порт 2222 и попробуйте снова."
 TRANSLATIONS_RU[node_cannot_continue_2222]="Установка не может продолжиться с занятым портом 2222"
-TRANSLATIONS_RU[node_enter_ssl_cert]="Введите сертификат сервера в формате SSL_CERT=\"...\" (вставьте содержимое и нажмите Enter дважды):"
-TRANSLATIONS_RU[node_ssl_cert_valid]="✓ Формат SSL сертификата корректен"
-TRANSLATIONS_RU[node_ssl_cert_invalid]="✗ Неверный формат SSL сертификата. Попробуйте снова."
-TRANSLATIONS_RU[node_ssl_cert_expected]="Ожидаемый формат: SSL_CERT=\"...eyJub2RlQ2VydFBldW0iOiAi...\""
+TRANSLATIONS_RU[node_enter_ssl_cert]="Введите Secret Key (SECRET_KEY) из панели (вставьте содержимое и нажмите Enter дважды):"
+TRANSLATIONS_RU[node_ssl_cert_valid]="✓ Формат Secret Key корректен"
+TRANSLATIONS_RU[node_ssl_cert_invalid]="✗ Неверный формат Secret Key. Попробуйте снова."
+TRANSLATIONS_RU[node_ssl_cert_expected]="Ожидаемый формат: eyJub2RlQ2VydFBldW0iOiIuLi4..."
 TRANSLATIONS_RU[node_port_info]="• Порт ноды:"
 TRANSLATIONS_RU[node_directory_info]="• Директория ноды:"
 
@@ -392,12 +392,13 @@ TRANSLATIONS_RU[operation_completed]="Операция завершена."
 TRANSLATIONS_RU[node_enter_selfsteal_domain]="Введите домен Selfsteal, например domain.example.com"
 TRANSLATIONS_RU[node_enter_panel_ip]="Введите IP-адрес сервера панели (для настройки брандмауэра)"
 TRANSLATIONS_RU[node_allow_connections]="Разрешение соединений с сервера панели на порт ноды 2222..."
-TRANSLATIONS_RU[node_enter_ssl_cert_prompt]="Введите сертификат сервера в формате SSL_CERT=\"...\" (вставьте содержимое и нажмите Enter дважды):"
+TRANSLATIONS_RU[node_enter_ssl_cert_prompt]="Введите Secret Key (SECRET_KEY) из панели (вставьте содержимое и нажмите Enter дважды):"
 TRANSLATIONS_RU[node_press_enter_return]="Нажмите Enter для возврата в главное меню..."
 
 # VLESS configuration
 TRANSLATIONS_RU[vless_enter_node_host]="Введите IP-адрес или домен сервера ноды (если отличается от домена Selfsteal)"
-TRANSLATIONS_RU[vless_public_key_required]="Публичный ключ (требуется для установки ноды):"
+TRANSLATIONS_RU[vless_public_key_required]="Secret Key (SECRET_KEY) - требуется для установки ноды:"
+TRANSLATIONS_RU[vless_public_key_instruction]="Скопируйте этот Secret Key и вставьте его при установке ноды БЕЗ кавычек"
 
 # Container names
 TRANSLATIONS_RU[container_name_remnawave_panel]="Панель Remnawave"

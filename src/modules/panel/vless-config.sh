@@ -89,8 +89,9 @@ configure_vless_panel_only() {
     if [ -n "$pubkey" ]; then
         echo
         echo -e "${GREEN}$(t vless_public_key_required)${NC}"
+        echo -e "${YELLOW}$(t vless_public_key_instruction)${NC}"
         echo
-        echo -e "SSL_CERT=\"$pubkey\""
+        echo -e "${BOLD_GREEN}$pubkey${NC}"
         echo
     fi
 }
