@@ -357,7 +357,7 @@ TRANSLATIONS_EN[node_port_2222_in_use]="Required Node API port 2222 is already i
 TRANSLATIONS_EN[node_separate_port_2222]="For separate node installation, port 2222 must be available."
 TRANSLATIONS_EN[node_free_port_2222]="Please free up port 2222 and try again."
 TRANSLATIONS_EN[node_cannot_continue_2222]="Installation cannot continue with occupied port 2222"
-TRANSLATIONS_EN[node_enter_ssl_cert]="Enter the Secret Key (SECRET_KEY) from the panel (paste the content and press Enter twice):"
+TRANSLATIONS_EN[node_enter_ssl_cert]="Enter the Secret Key (from node card or node creation window) and press Enter:"
 TRANSLATIONS_EN[node_ssl_cert_valid]="✓ Secret Key format is valid"
 TRANSLATIONS_EN[node_ssl_cert_invalid]="✗ Invalid Secret Key format. Please try again."
 TRANSLATIONS_EN[node_ssl_cert_expected]="Expected format: eyJub2RlQ2VydFBldW0iOiIuLi4..."
@@ -392,7 +392,6 @@ TRANSLATIONS_EN[operation_completed]="Operation completed."
 TRANSLATIONS_EN[node_enter_selfsteal_domain]="Enter Selfsteal domain, e.g. domain.example.com"
 TRANSLATIONS_EN[node_enter_panel_ip]="Enter the IP address of the panel server (for configuring firewall)"
 TRANSLATIONS_EN[node_allow_connections]="Allow connections from panel server to node port 2222..."
-TRANSLATIONS_EN[node_enter_ssl_cert_prompt]="Enter the Secret Key (SECRET_KEY) from the panel (paste the content and press Enter twice):"
 TRANSLATIONS_EN[node_press_enter_return]="Press Enter to return to the main menu..."
 
 # VLESS configuration
