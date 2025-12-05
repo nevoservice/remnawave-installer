@@ -214,6 +214,11 @@ services:
       interval: 3s
       timeout: 10s
       retries: 3
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '30m'
+        max-file: '5'
 
   remnawave:
     image: remnawave/backend:REMNAWAVE_BACKEND_TAG_PLACEHOLDER
@@ -232,11 +237,16 @@ services:
       remnawave-redis:
         condition: service_healthy
     healthcheck:
-      test: ['CMD-SHELL', 'curl -f http://localhost:$${METRICS_PORT}/health || exit 1']
+      test: ['CMD-SHELL', 'curl -f http://localhost:$${METRICS_PORT:-3001}/health']
       interval: 30s
-      timeout: 10s
+      timeout: 5s
       retries: 3
       start_period: 30s
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '30m'
+        max-file: '5'
 
   remnawave-redis:
     image: valkey/valkey:8.1-alpine
@@ -252,6 +262,11 @@ services:
       interval: 3s
       timeout: 10s
       retries: 3
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '30m'
+        max-file: '5'
 
 networks:
   remnawave-network:

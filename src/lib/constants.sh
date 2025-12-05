@@ -71,8 +71,8 @@ elif [ "$REMNAWAVE_BRANCH" = "alpha" ]; then
     REMNAWAVE_BACKEND_TAG="alpha"
     REMNAWAVE_NODE_TAG="dev"  # Node doesn't have alpha tag, use dev
 else
-    # Default to latest for main branch
-    REMNAWAVE_BACKEND_TAG="latest"
+    # Default to major version 2 for main branch (stable)
+    REMNAWAVE_BACKEND_TAG="2"
     REMNAWAVE_NODE_TAG="latest"
 fi
 

@@ -24,6 +24,11 @@ services:
       - SUB_BACKEND_URL=$SUB_BACKEND_URL
       - PANEL_SECRET_KEY=$PANEL_SECRET_KEY
     network_mode: "host"
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '30m'
+        max-file: '5'
 
 volumes:
   remnawave-caddy-ssl-data:

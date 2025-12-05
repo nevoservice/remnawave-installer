@@ -22,6 +22,11 @@ services:
             - '127.0.0.1:3010:3010'
         networks:
             - remnawave-network
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 
 networks:
     remnawave-network:

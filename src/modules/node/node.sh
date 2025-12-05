@@ -55,6 +55,11 @@ services:
             - SECRET_KEY="$certificate"
         volumes:
             - /dev/shm:/dev/shm
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 EOF
 
     create_makefile "$REMNANODE_DIR"

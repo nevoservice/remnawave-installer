@@ -32,6 +32,11 @@ services:
         volumes:
             - /dev/shm:/dev/shm
         network_mode: host
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 EOF
 
     create_makefile "$LOCAL_REMNANODE_DIR"

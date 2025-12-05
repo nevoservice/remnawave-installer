@@ -69,7 +69,7 @@ elif [ "$REMNAWAVE_BRANCH" = "alpha" ]; then
     REMNAWAVE_BACKEND_TAG="alpha"
     REMNAWAVE_NODE_TAG="dev"  # Node doesn't have alpha tag, use dev
 else
-    REMNAWAVE_BACKEND_TAG="latest"
+    REMNAWAVE_BACKEND_TAG="2"
     REMNAWAVE_NODE_TAG="latest"
 fi
 
@@ -2880,6 +2880,11 @@ services:
       interval: 3s
       timeout: 10s
       retries: 3
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '30m'
+        max-file: '5'
 
   remnawave:
     image: remnawave/backend:REMNAWAVE_BACKEND_TAG_PLACEHOLDER
@@ -2898,11 +2903,16 @@ services:
       remnawave-redis:
         condition: service_healthy
     healthcheck:
-      test: ['CMD-SHELL', 'curl -f http://localhost:$${METRICS_PORT}/health || exit 1']
+      test: ['CMD-SHELL', 'curl -f http://localhost:$${METRICS_PORT:-3001}/health']
       interval: 30s
-      timeout: 10s
+      timeout: 5s
       retries: 3
       start_period: 30s
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '30m'
+        max-file: '5'
 
   remnawave-redis:
     image: valkey/valkey:8.1-alpine
@@ -2918,6 +2928,11 @@ services:
       interval: 3s
       timeout: 10s
       retries: 3
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '30m'
+        max-file: '5'
 
 networks:
   remnawave-network:
@@ -5185,6 +5200,11 @@ services:
             - '127.0.0.1:3010:3010'
         networks:
             - remnawave-network
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 
 networks:
     remnawave-network:
@@ -5299,6 +5319,11 @@ services:
       - SUB_BACKEND_URL=$SUB_BACKEND_URL
       - PANEL_SECRET_KEY=$PANEL_SECRET_KEY
     network_mode: "host"
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '30m'
+        max-file: '5'
 
 volumes:
   remnawave-caddy-ssl-data:
@@ -5504,6 +5529,11 @@ services:
             - ./html:/var/www/html
             - remnawave-caddy-ssl-data:/data
         network_mode: "host"
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 
 volumes:
     remnawave-caddy-ssl-data:
@@ -5733,6 +5763,11 @@ services:
             timeout: 5s
             retries: 15
             start_period: 5s
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 
 volumes:
     remnawave-caddy-ssl-data:
@@ -5763,6 +5798,11 @@ services:
             timeout: 5s
             retries: 15
             start_period: 5s
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 
 volumes:
     remnawave-caddy-ssl-data:
@@ -5860,6 +5900,11 @@ services:
             - SECRET_KEY="$certificate"
         volumes:
             - /dev/shm:/dev/shm
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 EOF
 
     create_makefile "$REMNANODE_DIR"
@@ -6075,6 +6120,11 @@ services:
         volumes:
             - /dev/shm:/dev/shm
         network_mode: host
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 EOF
 
     create_makefile "$LOCAL_REMNANODE_DIR"
@@ -6219,6 +6269,11 @@ services:
             timeout: 5s
             retries: 15
             start_period: 5s
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 
 volumes:
     remnawave-caddy-ssl-data:
@@ -6408,6 +6463,11 @@ services:
             timeout: 5s
             retries: 15
             start_period: 5s
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 
 volumes:
     remnawave-caddy-ssl-data:

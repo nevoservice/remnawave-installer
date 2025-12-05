@@ -104,6 +104,11 @@ services:
             timeout: 5s
             retries: 15
             start_period: 5s
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 
 volumes:
     remnawave-caddy-ssl-data:
@@ -135,6 +140,11 @@ services:
             timeout: 5s
             retries: 15
             start_period: 5s
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 
 volumes:
     remnawave-caddy-ssl-data:

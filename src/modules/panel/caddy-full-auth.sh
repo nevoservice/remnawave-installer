@@ -141,6 +141,11 @@ services:
             - ./html:/var/www/html
             - remnawave-caddy-ssl-data:/data
         network_mode: "host"
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '5'
 
 volumes:
     remnawave-caddy-ssl-data:
