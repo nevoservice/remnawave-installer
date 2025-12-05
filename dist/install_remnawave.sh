@@ -78,8 +78,11 @@ INSTALLER_REPO="https://raw.githubusercontent.com/xxphantom/remnawave-installer/
 
 REMNAWAVE_DIR="/opt/remnawave"
 REMNANODE_DIR="/opt/remnanode"
-SELFSTEAL_DIR="/opt/remnanode/selfsteal"
 
+CADDY_SOCKET_PATH="/dev/shm/caddy.sock"
+SELFSTEAL_PORT="9443"
+
+SELFSTEAL_DIR="/opt/remnanode/selfsteal"
 LOCAL_REMNANODE_DIR="$REMNAWAVE_DIR/node"
 
 # Including module: i18n.sh
@@ -216,7 +219,6 @@ TRANSLATIONS_EN[password_try_again]="Please try again."
 
 TRANSLATIONS_EN[port_panel_prompt]="Enter Panel port (default: 443): "
 TRANSLATIONS_EN[port_node_prompt]="Enter Node port (default: 2222): "
-TRANSLATIONS_EN[port_caddy_local_prompt]="Enter Caddy local port (default: 9443): "
 
 TRANSLATIONS_EN[installation_preparing]="Preparing installation..."
 TRANSLATIONS_EN[installation_starting_services]="Starting services..."
@@ -252,6 +254,16 @@ TRANSLATIONS_EN[restart_installation_corrupted]="Panel installation may be corru
 TRANSLATIONS_EN[restart_starting_panel]="Starting main panel..."
 TRANSLATIONS_EN[restart_starting_subscription]="Starting subscription page..."
 TRANSLATIONS_EN[restart_success]="Panel restarted successfully"
+
+TRANSLATIONS_EN[main_menu_view_logs]="View logs"
+TRANSLATIONS_EN[logs_dir_not_found]="Error: installation directory not found! Neither /opt/remnawave nor /opt/remnanode exists."
+TRANSLATIONS_EN[logs_container_not_running]="Error: no containers are running!"
+TRANSLATIONS_EN[logs_viewing]="Viewing container logs..."
+TRANSLATIONS_EN[logs_exit_hint]="Press Ctrl+C to exit"
+TRANSLATIONS_EN[logs_select_component]="Select component to view logs:"
+TRANSLATIONS_EN[logs_option_panel]="Panel (backend, database, redis)"
+TRANSLATIONS_EN[logs_option_node]="Node"
+TRANSLATIONS_EN[logs_option_back]="Back"
 
 TRANSLATIONS_EN[update_panel_dir_not_found]="Error: panel directory not found at /opt/remnawave!"
 TRANSLATIONS_EN[update_node_dir_not_found]="Error: node directory not found at /opt/remnanode!"
@@ -343,8 +355,6 @@ TRANSLATIONS_EN[spinner_downloading_static_files]="Downloading static files for 
 TRANSLATIONS_EN[config_invalid_arguments]="Error: invalid number of arguments. Should be even number of keys and values."
 TRANSLATIONS_EN[config_domain_already_used]="Domain"
 TRANSLATIONS_EN[config_domains_must_be_unique]="Each domain must be unique: panel domain, subscription domain, and selfsteal domain must all be different."
-TRANSLATIONS_EN[config_caddy_port_available]="Required Caddy port 9443 is available"
-TRANSLATIONS_EN[config_caddy_port_in_use]="Required Caddy port 9443 is already in use!"
 TRANSLATIONS_EN[config_node_port_available]="Required Node API port 2222 is available"
 TRANSLATIONS_EN[config_node_port_in_use]="Required Node API port 2222 is already in use!"
 TRANSLATIONS_EN[config_separate_installation_port_required]="For separate panel and node installation, port"
@@ -421,15 +431,11 @@ TRANSLATIONS_EN[vless_failed_generate_keys]="Error: Failed to generate keys."
 TRANSLATIONS_EN[vless_empty_response_xray]="Error: Empty response from server when updating Xray config."
 TRANSLATIONS_EN[vless_failed_update_xray]="Error: Failed to update Xray configuration."
 
-TRANSLATIONS_EN[node_port_9443_in_use]="Required Caddy port 9443 is already in use!"
-TRANSLATIONS_EN[node_separate_port_9443]="For separate node installation, port 9443 must be available."
-TRANSLATIONS_EN[node_free_port_9443]="Please free up port 9443 and try again."
-TRANSLATIONS_EN[node_cannot_continue_9443]="Installation cannot continue with occupied port 9443"
 TRANSLATIONS_EN[node_port_2222_in_use]="Required Node API port 2222 is already in use!"
 TRANSLATIONS_EN[node_separate_port_2222]="For separate node installation, port 2222 must be available."
 TRANSLATIONS_EN[node_free_port_2222]="Please free up port 2222 and try again."
 TRANSLATIONS_EN[node_cannot_continue_2222]="Installation cannot continue with occupied port 2222"
-TRANSLATIONS_EN[node_enter_ssl_cert]="Enter the Secret Key (from node card or node creation window) and press Enter:"
+TRANSLATIONS_EN[node_enter_ssl_cert]="Enter the Secret Key (from node card / node creation window / panel installation script) and press Enter:"
 TRANSLATIONS_EN[node_ssl_cert_valid]="✓ Secret Key format is valid"
 TRANSLATIONS_EN[node_ssl_cert_invalid]="✗ Invalid Secret Key format. Please try again."
 TRANSLATIONS_EN[node_ssl_cert_expected]="Expected format: eyJub2RlQ2VydFBldW0iOiIuLi4..."
@@ -475,6 +481,10 @@ TRANSLATIONS_EN[selfsteal_installation_stopped]="Installation stopped"
 TRANSLATIONS_EN[selfsteal_domain_info]="• Domain:"
 TRANSLATIONS_EN[selfsteal_port_info]="• Port:"
 TRANSLATIONS_EN[selfsteal_directory_info]="• Directory:"
+
+TRANSLATIONS_EN[waiting_for_caddy_socket]="Waiting for Caddy socket to be ready..."
+TRANSLATIONS_EN[error_caddy_socket_timeout]="Timeout waiting for Caddy socket. Caddy may have failed to start."
+TRANSLATIONS_EN[caddy_socket_ready]="Caddy socket is ready"
 
 TRANSLATIONS_EN[warp_title]="WARP Integration Setup"
 TRANSLATIONS_EN[warp_checking_installation]="Checking panel installation..."
@@ -553,6 +563,27 @@ TRANSLATIONS_EN[warp_affected_nodes_profiles]="Affected nodes and profiles"
 TRANSLATIONS_EN[warp_nodes]="Nodes"
 TRANSLATIONS_EN[warp_profile]="profile"
 TRANSLATIONS_EN[warp_nodes_lowercase]="nodes"
+
+TRANSLATIONS_EN[main_menu_panel_access]="Emergency panel access (port 8443)"
+TRANSLATIONS_EN[panel_access_menu_title]="Emergency Panel Access (Port 8443)"
+TRANSLATIONS_EN[panel_access_open]="Enable emergency access"
+TRANSLATIONS_EN[panel_access_close]="Disable emergency access"
+TRANSLATIONS_EN[panel_access_port_opened]="Emergency access enabled successfully"
+TRANSLATIONS_EN[panel_access_port_closed]="Emergency access disabled successfully"
+TRANSLATIONS_EN[panel_access_link]="Panel access link:"
+TRANSLATIONS_EN[panel_access_warning]="WARNING: Don't forget to disable emergency access after you're done!"
+TRANSLATIONS_EN[panel_access_already_open]="Emergency access is already enabled"
+TRANSLATIONS_EN[panel_access_already_closed]="Emergency access is already disabled"
+TRANSLATIONS_EN[panel_access_enabling]="Enabling emergency access..."
+TRANSLATIONS_EN[panel_access_disabling]="Disabling emergency access..."
+TRANSLATIONS_EN[panel_access_dir_not_found]="Panel directory not found. Install panel first."
+TRANSLATIONS_EN[panel_access_back]="Back to main menu"
+
+TRANSLATIONS_EN[node_xray_connection_type]="Select Xray connection type:"
+TRANSLATIONS_EN[node_xray_connection_socket]="Unix Socket (recommended)"
+TRANSLATIONS_EN[node_xray_connection_port]="TCP Port (if you already used port mode in panel)"
+TRANSLATIONS_EN[node_xray_connection_socket_desc]="Uses /dev/shm/caddy.sock for internal communication"
+TRANSLATIONS_EN[node_xray_connection_port_desc]="Uses TCP port 9443 for Xray connection"
 
 # Including module: ru.sh
 
@@ -662,7 +693,6 @@ TRANSLATIONS_RU[password_try_again]="Попробуйте снова."
 
 TRANSLATIONS_RU[port_panel_prompt]="Введите порт панели (по умолчанию: 443): "
 TRANSLATIONS_RU[port_node_prompt]="Введите порт ноды (по умолчанию: 2222): "
-TRANSLATIONS_RU[port_caddy_local_prompt]="Введите локальный порт Caddy (по умолчанию: 9443): "
 
 TRANSLATIONS_RU[installation_preparing]="Подготовка установки..."
 TRANSLATIONS_RU[installation_starting_services]="Запуск сервисов..."
@@ -698,6 +728,16 @@ TRANSLATIONS_RU[restart_installation_corrupted]="Установка панели
 TRANSLATIONS_RU[restart_starting_panel]="Запуск основной панели..."
 TRANSLATIONS_RU[restart_starting_subscription]="Запуск страницы подписки..."
 TRANSLATIONS_RU[restart_success]="Панель успешно перезапущена"
+
+TRANSLATIONS_RU[main_menu_view_logs]="Просмотр логов"
+TRANSLATIONS_RU[logs_dir_not_found]="Ошибка: директория установки не найдена! Ни /opt/remnawave, ни /opt/remnanode не существует."
+TRANSLATIONS_RU[logs_container_not_running]="Ошибка: контейнеры не запущены!"
+TRANSLATIONS_RU[logs_viewing]="Просмотр логов контейнеров..."
+TRANSLATIONS_RU[logs_exit_hint]="Нажмите Ctrl+C для выхода"
+TRANSLATIONS_RU[logs_select_component]="Выберите компонент для просмотра логов:"
+TRANSLATIONS_RU[logs_option_panel]="Панель (backend, база данных, redis)"
+TRANSLATIONS_RU[logs_option_node]="Нода"
+TRANSLATIONS_RU[logs_option_back]="Назад"
 
 TRANSLATIONS_RU[update_panel_dir_not_found]="Ошибка: директория панели не найдена в /opt/remnawave!"
 TRANSLATIONS_RU[update_node_dir_not_found]="Ошибка: директория ноды не найдена в /opt/remnanode!"
@@ -789,8 +829,6 @@ TRANSLATIONS_RU[spinner_downloading_static_files]="Загрузка статич
 TRANSLATIONS_RU[config_invalid_arguments]="Ошибка: неверное количество аргументов. Должно быть четное количество ключей и значений."
 TRANSLATIONS_RU[config_domain_already_used]="Домен"
 TRANSLATIONS_RU[config_domains_must_be_unique]="Каждый домен должен быть уникальным: домен панели, домен подписки и домен selfsteal должны быть разными."
-TRANSLATIONS_RU[config_caddy_port_available]="Требуемый порт Caddy 9443 доступен"
-TRANSLATIONS_RU[config_caddy_port_in_use]="Требуемый порт Caddy 9443 уже используется!"
 TRANSLATIONS_RU[config_node_port_available]="Требуемый порт API ноды 2222 доступен"
 TRANSLATIONS_RU[config_node_port_in_use]="Требуемый порт API ноды 2222 уже используется!"
 TRANSLATIONS_RU[config_separate_installation_port_required]="Для отдельной установки панели и ноды порт"
@@ -867,15 +905,11 @@ TRANSLATIONS_RU[vless_failed_generate_keys]="Ошибка: Не удалось �
 TRANSLATIONS_RU[vless_empty_response_xray]="Ошибка: Пустой ответ от сервера при обновлении конфигурации Xray."
 TRANSLATIONS_RU[vless_failed_update_xray]="Ошибка: Не удалось обновить конфигурацию Xray."
 
-TRANSLATIONS_RU[node_port_9443_in_use]="Требуемый порт Caddy 9443 уже используется!"
-TRANSLATIONS_RU[node_separate_port_9443]="Для отдельной установки ноды порт 9443 должен быть доступен."
-TRANSLATIONS_RU[node_free_port_9443]="Пожалуйста, освободите порт 9443 и попробуйте снова."
-TRANSLATIONS_RU[node_cannot_continue_9443]="Установка не может продолжиться с занятым портом 9443"
 TRANSLATIONS_RU[node_port_2222_in_use]="Требуемый порт API ноды 2222 уже используется!"
 TRANSLATIONS_RU[node_separate_port_2222]="Для отдельной установки ноды порт 2222 должен быть доступен."
 TRANSLATIONS_RU[node_free_port_2222]="Пожалуйста, освободите порт 2222 и попробуйте снова."
 TRANSLATIONS_RU[node_cannot_continue_2222]="Установка не может продолжиться с занятым портом 2222"
-TRANSLATIONS_RU[node_enter_ssl_cert]="Введите Secret Key (секретный ключ из карточки ноды или окна создания ноды) и нажмите Enter:"
+TRANSLATIONS_RU[node_enter_ssl_cert]="Введите Secret Key (секретный ключ из карточки ноды / окна создания ноды / скрипта установки панели) и нажмите Enter:"
 TRANSLATIONS_RU[node_ssl_cert_valid]="✓ Формат Secret Key корректен"
 TRANSLATIONS_RU[node_ssl_cert_invalid]="✗ Неверный формат Secret Key. Попробуйте снова."
 TRANSLATIONS_RU[node_ssl_cert_expected]="Ожидаемый формат: eyJub2RlQ2VydFBldW0iOiIuLi4..."
@@ -921,6 +955,10 @@ TRANSLATIONS_RU[selfsteal_installation_stopped]="Установка остано
 TRANSLATIONS_RU[selfsteal_domain_info]="• Домен:"
 TRANSLATIONS_RU[selfsteal_port_info]="• Порт:"
 TRANSLATIONS_RU[selfsteal_directory_info]="• Директория:"
+
+TRANSLATIONS_RU[waiting_for_caddy_socket]="Ожидание готовности сокета Caddy..."
+TRANSLATIONS_RU[error_caddy_socket_timeout]="Превышено время ожидания сокета Caddy. Возможно, Caddy не запустился."
+TRANSLATIONS_RU[caddy_socket_ready]="Сокет Caddy готов"
 
 TRANSLATIONS_RU[warp_title]="Настройка WARP интеграции"
 TRANSLATIONS_RU[warp_checking_installation]="Проверка установки панели..."
@@ -999,6 +1037,27 @@ TRANSLATIONS_RU[warp_affected_nodes_profiles]="Затронутые ноды и 
 TRANSLATIONS_RU[warp_nodes]="Ноды"
 TRANSLATIONS_RU[warp_profile]="профиль"
 TRANSLATIONS_RU[warp_nodes_lowercase]="ноды"
+
+TRANSLATIONS_RU[main_menu_panel_access]="Аварийный доступ к панели (порт 8443)"
+TRANSLATIONS_RU[panel_access_menu_title]="Аварийный доступ к панели (порт 8443)"
+TRANSLATIONS_RU[panel_access_open]="Включить аварийный доступ"
+TRANSLATIONS_RU[panel_access_close]="Выключить аварийный доступ"
+TRANSLATIONS_RU[panel_access_port_opened]="Аварийный доступ успешно включён"
+TRANSLATIONS_RU[panel_access_port_closed]="Аварийный доступ успешно выключён"
+TRANSLATIONS_RU[panel_access_link]="Ссылка для доступа к панели:"
+TRANSLATIONS_RU[panel_access_warning]="ВНИМАНИЕ: Не забудьте выключить аварийный доступ после использования!"
+TRANSLATIONS_RU[panel_access_already_open]="Аварийный доступ уже включён"
+TRANSLATIONS_RU[panel_access_already_closed]="Аварийный доступ уже выключён"
+TRANSLATIONS_RU[panel_access_enabling]="Включение аварийного доступа..."
+TRANSLATIONS_RU[panel_access_disabling]="Выключение аварийного доступа..."
+TRANSLATIONS_RU[panel_access_dir_not_found]="Директория панели не найдена. Сначала установите панель."
+TRANSLATIONS_RU[panel_access_back]="Вернуться в главное меню"
+
+TRANSLATIONS_RU[node_xray_connection_type]="Выберите тип связи с Xray:"
+TRANSLATIONS_RU[node_xray_connection_socket]="Unix Socket (рекомендуется)"
+TRANSLATIONS_RU[node_xray_connection_port]="TCP Port (если вы уже используете порт в конфиге панели)"
+TRANSLATIONS_RU[node_xray_connection_socket_desc]="Использует /dev/shm/caddy.sock для внутренней связи"
+TRANSLATIONS_RU[node_xray_connection_port_desc]="Использует TCP порт 9443 для связи с Xray"
 
 # Including module: system.sh
 
@@ -1156,13 +1215,47 @@ prepare_installation() {
     return 0
 }
 
+prepare_node_installation() {
+    local extra_deps=("$@")
+    clear_screen
+    install_dependencies "${extra_deps[@]}"
+
+    if ! remove_previous_installation; then
+        show_info "$(t system_installation_cancelled)"
+        return 1
+    fi
+
+    mkdir -p "$REMNANODE_DIR"
+    cd "$REMNANODE_DIR"
+    return 0
+}
+
 # Including module: containers.sh
 
+
+wait_for_caddy_socket() {
+    local max_wait=${1:-30}
+    local elapsed=0
+
+    show_info "$(t waiting_for_caddy_socket)" "$ORANGE"
+
+    while [ ! -S "$CADDY_SOCKET_PATH" ]; do
+        if [ $elapsed -ge $max_wait ]; then
+            show_error "$(t error_caddy_socket_timeout)"
+            return 1
+        fi
+        sleep 1
+        ((elapsed++))
+    done
+
+    show_success "$(t caddy_socket_ready)"
+    return 0
+}
 
 remove_previous_installation() {
     local from_menu=${1:-false}
 
-    if [ -d "$REMNAWAVE_DIR" ]; then
+    if [ -d "$REMNAWAVE_DIR" ] || [ -d "$REMNANODE_DIR" ]; then
         if [ "$from_menu" = true ]; then
             show_warning "$(t removal_installation_detected)"
             if [ "$KEEP_CADDY_DATA" = "true" ]; then
@@ -1183,6 +1276,7 @@ remove_previous_installation() {
 
         local compose_configs=(
             "$REMNAWAVE_DIR/caddy/docker-compose.yml"
+            "$LOCAL_REMNANODE_DIR/docker-compose.yml"
             "$REMNAWAVE_DIR/subscription-page/docker-compose.yml"
             "$REMNAWAVE_DIR/docker-compose.yml"
             "$REMNANODE_DIR/docker-compose.yml"
@@ -1215,8 +1309,14 @@ remove_previous_installation() {
             fi
         done
 
-        rm -rf "$REMNAWAVE_DIR" >/dev/null 2>&1 &
-        spinner $! "$(t spinner_removing_directory) $REMNAWAVE_DIR"
+        if [ -d "$REMNAWAVE_DIR" ]; then
+            rm -rf "$REMNAWAVE_DIR" >/dev/null 2>&1 &
+            spinner $! "$(t spinner_removing_directory) $REMNAWAVE_DIR"
+        fi
+        if [ -d "$REMNANODE_DIR" ]; then
+            rm -rf "$REMNANODE_DIR" >/dev/null 2>&1 &
+            spinner $! "$(t spinner_removing_directory) $REMNANODE_DIR"
+        fi
 
         if [ "$from_menu" = true ]; then
             show_success "$(t removal_complete_success)"
@@ -2711,22 +2811,10 @@ collect_domain_config() {
 }
 
 collect_ports_all_in_one() {
-    CADDY_LOCAL_PORT=$(get_available_port "9443" "Caddy")
     NODE_PORT=$(get_available_port "2222" "Node API")
 }
 
 collect_ports_separate_installation() {
-
-    if CADDY_LOCAL_PORT=$(check_required_port "9443"); then
-        show_info "$(t config_caddy_port_available)"
-    else
-        show_error "$(t config_caddy_port_in_use)"
-        show_error "$(t config_separate_installation_port_required) 9443."
-        show_error "$(t config_free_port_and_retry) 9443."
-        show_error "$(t config_installation_cannot_continue) 9443"
-        return 1
-    fi
-
     if NODE_PORT=$(check_required_port "2222"); then
         show_info "$(t config_node_port_available)"
     else
@@ -3111,7 +3199,7 @@ generate_vless_keys() {
 generate_xray_config() {
   local config_file="$1"
   local self_steal_domain="$2"
-  local CADDY_LOCAL_PORT="$3"
+  local socket_path="$3"
   local private_key="$4"
 
   local short_id=$(openssl rand -hex 8)
@@ -3151,7 +3239,7 @@ generate_xray_config() {
         "network": "tcp",
         "security": "reality",
         "realitySettings": {
-          "dest": "127.0.0.1:$CADDY_LOCAL_PORT",
+          "target": "$socket_path",
           "show": false,
           "xver": 1,
           "shortIds": [
@@ -3181,11 +3269,9 @@ generate_xray_config() {
         "ip": [
           "geoip:private"
         ],
-        "type": "field",
         "outboundTag": "BLOCK"
       },
       {
-        "type": "field",
         "protocol": [
           "bittorrent"
         ],
@@ -3556,6 +3642,367 @@ show_panel_credentials() {
     echo
     echo -e "${BOLD_YELLOW}$(t prompt_enter_to_return)${NC}"
     read -r
+}
+
+# Including module: panel-access.sh
+
+
+check_panel_for_access() {
+    if [ ! -d "$REMNAWAVE_DIR" ]; then
+        show_error "$(t panel_access_dir_not_found)"
+        return 1
+    fi
+    return 0
+}
+
+is_ufw_active() {
+    if ! command -v ufw >/dev/null 2>&1; then
+        return 1
+    fi
+    if ! ufw status | grep -q "Status: active"; then
+        return 1
+    fi
+    return 0
+}
+
+open_firewall_port() {
+    if is_ufw_active; then
+        ufw allow 8443/tcp >/dev/null 2>&1
+        ufw reload >/dev/null 2>&1
+    fi
+}
+
+close_firewall_port() {
+    if is_ufw_active; then
+        if ufw status | grep -q "8443.*ALLOW"; then
+            ufw delete allow 8443/tcp >/dev/null 2>&1
+            ufw reload >/dev/null 2>&1
+            return 0
+        fi
+    fi
+    return 1
+}
+
+is_firewall_port_open() {
+    if is_ufw_active; then
+        ufw status | grep -q "8443.*ALLOW"
+        return $?
+    fi
+    return 0
+}
+
+get_auth_type() {
+    local caddyfile=""
+
+    if [ -f "$REMNAWAVE_DIR/Caddyfile" ]; then
+        caddyfile="$REMNAWAVE_DIR/Caddyfile"
+    elif [ -f "$REMNAWAVE_DIR/caddy/Caddyfile" ]; then
+        caddyfile="$REMNAWAVE_DIR/caddy/Caddyfile"
+    else
+        echo "unknown"
+        return 1
+    fi
+
+    if grep -q "PANEL_SECRET_KEY" "$caddyfile"; then
+        echo "cookie"
+    elif grep -q "remnawaveportal" "$caddyfile"; then
+        echo "full"
+    else
+        echo "unknown"
+    fi
+}
+
+get_caddyfile_path() {
+    if [ -f "$REMNAWAVE_DIR/Caddyfile" ]; then
+        echo "$REMNAWAVE_DIR/Caddyfile"
+    elif [ -f "$REMNAWAVE_DIR/caddy/Caddyfile" ]; then
+        echo "$REMNAWAVE_DIR/caddy/Caddyfile"
+    else
+        echo ""
+    fi
+}
+
+get_caddy_compose_dir() {
+    if [ -f "$REMNAWAVE_DIR/docker-compose.caddy.yml" ]; then
+        echo "$REMNAWAVE_DIR"
+    elif [ -f "$REMNAWAVE_DIR/caddy/docker-compose.yml" ]; then
+        echo "$REMNAWAVE_DIR/caddy"
+    else
+        echo ""
+    fi
+}
+
+get_panel_access_link() {
+    local auth_type=$(get_auth_type)
+    local credentials_file="$REMNAWAVE_DIR/credentials.txt"
+
+    if [ ! -f "$credentials_file" ]; then
+        echo ""
+        return 1
+    fi
+
+    local panel_domain=$(grep "PANEL URL:" "$credentials_file" | sed 's|PANEL URL: https://||' | cut -d'/' -f1 | cut -d'?' -f1)
+
+    if [ "$auth_type" = "cookie" ]; then
+        local secret_key=$(grep "PANEL URL:" "$credentials_file" | grep -oP 'caddy=\K[^&\s]+')
+        echo "https://${panel_domain}:8443/auth/login?caddy=${secret_key}"
+    else
+        local login_route=$(grep "PANEL URL:" "$credentials_file" | sed 's|.*https://[^/]*/||' | cut -d'/' -f1)
+        echo "https://${panel_domain}:8443/${login_route}"
+    fi
+}
+
+has_8443_section() {
+    local caddyfile=$(get_caddyfile_path)
+    if [ -z "$caddyfile" ]; then
+        return 1
+    fi
+    grep -q ":8443" "$caddyfile"
+}
+
+add_8443_section() {
+    local caddyfile=$(get_caddyfile_path)
+    local auth_type=$(get_auth_type)
+
+    if [ -z "$caddyfile" ]; then
+        show_error "$(t panel_access_dir_not_found)"
+        return 1
+    fi
+
+    local temp_file=$(mktemp)
+
+    if [ "$auth_type" = "cookie" ]; then
+        awk '/:80 \{/ {
+            print ""
+            print "# Emergency access port (direct, without Xray)"
+            print "https://{$PANEL_DOMAIN}:8443 {"
+            print "    @has_token_param {"
+            print "        query caddy={$PANEL_SECRET_KEY}"
+            print "    }"
+            print ""
+            print "    handle @has_token_param {"
+            print "        header +Set-Cookie \"caddy={$PANEL_SECRET_KEY}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=2592000\""
+            print "    }"
+            print ""
+            print "    @unauthorized {"
+            print "        not header Cookie *caddy={$PANEL_SECRET_KEY}*"
+            print "        not query caddy={$PANEL_SECRET_KEY}"
+            print "    }"
+            print ""
+            print "    handle @unauthorized {"
+            print "        root * /var/www/html"
+            print "        try_files {path} /index.html"
+            print "        file_server"
+            print "    }"
+            print ""
+            print "    reverse_proxy {$BACKEND_URL} {"
+            print "        header_up X-Real-IP {remote}"
+            print "        header_up Host {host}"
+            print "    }"
+            print "}"
+            print ""
+        } {print}' "$caddyfile" > "$temp_file"
+    else
+        awk '/:80 \{/ {
+            print ""
+            print "# Emergency access port (direct, without Xray)"
+            print "https://{$REMNAWAVE_PANEL_DOMAIN}:8443 {"
+            print "    @login_path {"
+            print "        path /{$REMNAWAVE_CUSTOM_LOGIN_ROUTE} /{$REMNAWAVE_CUSTOM_LOGIN_ROUTE}/ /{$REMNAWAVE_CUSTOM_LOGIN_ROUTE}/auth"
+            print "    }"
+            print "    handle @login_path {"
+            print "        rewrite * /auth"
+            print "        request_header +X-Forwarded-Prefix /{$REMNAWAVE_CUSTOM_LOGIN_ROUTE}"
+            print "        authenticate with remnawaveportal"
+            print "    }"
+            print ""
+            print "    handle_path /restricted* {"
+            print "        abort"
+            print "    }"
+            print ""
+            print "    route /api/* {"
+            print "        authorize with panelpolicy"
+            print "        reverse_proxy http://127.0.0.1:3000"
+            print "    }"
+            print ""
+            print "    route /{$REMNAWAVE_CUSTOM_LOGIN_ROUTE}* {"
+            print "        authenticate with remnawaveportal"
+            print "    }"
+            print ""
+            print "    route /* {"
+            print "        authorize with panelpolicy"
+            print "        reverse_proxy http://127.0.0.1:3000"
+            print "    }"
+            print ""
+            print "    handle_errors {"
+            print "        @unauth {"
+            print "            expression {http.error.status_code} == 401"
+            print "        }"
+            print "        handle @unauth {"
+            print "            respond * 204"
+            print "        }"
+            print "    }"
+            print "}"
+            print ""
+        } {print}' "$caddyfile" > "$temp_file"
+    fi
+
+    mv "$temp_file" "$caddyfile"
+}
+
+remove_8443_section() {
+    local caddyfile=$(get_caddyfile_path)
+
+    if [ -z "$caddyfile" ]; then
+        return 1
+    fi
+
+    local temp_file=$(mktemp)
+
+    awk '
+        /^# Emergency access port/ { skip = 1; next }
+        /^https:\/\/.*:8443/ { skip = 1; next }
+        skip && /^\}$/ { skip = 0; next }
+        skip { next }
+        { print }
+    ' "$caddyfile" > "$temp_file"
+
+    mv "$temp_file" "$caddyfile"
+}
+
+restart_caddy() {
+    local compose_dir=$(get_caddy_compose_dir)
+
+    if [ -z "$compose_dir" ]; then
+        show_error "$(t panel_access_dir_not_found)"
+        return 1
+    fi
+
+    cd "$compose_dir"
+
+    local compose_file="docker-compose.yml"
+    if [ -f "docker-compose.caddy.yml" ]; then
+        compose_file="docker-compose.caddy.yml"
+    fi
+
+    if [ "$compose_file" = "docker-compose.caddy.yml" ]; then
+        docker compose -f "$compose_file" restart caddy >/dev/null 2>&1 || \
+        docker compose -f "$compose_file" restart remnawave-caddy >/dev/null 2>&1
+    else
+        docker compose restart caddy >/dev/null 2>&1 || \
+        docker compose restart remnawave-caddy >/dev/null 2>&1
+    fi
+}
+
+open_panel_access() {
+    if ! check_panel_for_access; then
+        return 1
+    fi
+
+    if has_8443_section && is_firewall_port_open; then
+        show_warning "$(t panel_access_already_open)"
+        local access_link=$(get_panel_access_link)
+        if [ -n "$access_link" ]; then
+            echo
+            echo -e "${BOLD_GREEN}$(t panel_access_link)${NC}"
+            echo -e "${access_link}"
+            echo
+        fi
+        return 0
+    fi
+
+    (
+        if ! has_8443_section; then
+            add_8443_section
+            restart_caddy
+            sleep 2
+        fi
+
+        open_firewall_port
+    ) &
+    spinner $! "$(t panel_access_enabling)"
+
+    local access_link=$(get_panel_access_link)
+
+    echo
+    show_success "$(t panel_access_port_opened)"
+    echo
+    if [ -n "$access_link" ]; then
+        echo -e "${BOLD_GREEN}$(t panel_access_link)${NC}"
+        echo -e "${access_link}"
+        echo
+    fi
+    show_warning "$(t panel_access_warning)"
+    echo
+}
+
+close_panel_access() {
+    if ! check_panel_for_access; then
+        return 1
+    fi
+
+    if ! has_8443_section && ! is_firewall_port_open; then
+        show_info "$(t panel_access_already_closed)"
+        return 0
+    fi
+
+    (
+        if has_8443_section; then
+            remove_8443_section
+            restart_caddy
+        fi
+
+        close_firewall_port
+    ) &
+    spinner $! "$(t panel_access_disabling)"
+
+    echo
+    show_success "$(t panel_access_port_closed)"
+}
+
+show_panel_access_menu() {
+    clear
+    echo -e "${BOLD_GREEN}$(t panel_access_menu_title)${NC}"
+    echo
+    echo -e "${GREEN}1.${NC} $(t panel_access_open)"
+    echo -e "${GREEN}2.${NC} $(t panel_access_close)"
+    echo
+    echo -e "${GREEN}0.${NC} $(t panel_access_back)"
+    echo
+    echo -ne "${BOLD_BLUE_MENU}$(t main_menu_select_option) ${NC}"
+}
+
+manage_panel_access() {
+    if ! check_panel_for_access; then
+        echo -e "${BOLD_YELLOW}$(t prompt_enter_to_return)${NC}"
+        read -r
+        return
+    fi
+
+    while true; do
+        show_panel_access_menu
+        read choice
+
+        case $choice in
+        1)
+            open_panel_access
+            echo -e "${BOLD_YELLOW}$(t prompt_enter_to_return)${NC}"
+            read -r
+            ;;
+        2)
+            close_panel_access
+            echo -e "${BOLD_YELLOW}$(t prompt_enter_to_return)${NC}"
+            read -r
+            ;;
+        0)
+            return
+            ;;
+        *)
+            show_error "$(t error_invalid_choice)"
+            sleep 1
+            ;;
+        esac
+    done
 }
 
 # Including module: update.sh
@@ -4184,7 +4631,6 @@ EOF
         
         local warp_routing_rule=$(cat <<'EOF'
 {
-  "type": "field",
   "domain": [
     "ipinfo.io"
   ],
@@ -4313,7 +4759,6 @@ EOF
     echo
     cat <<'EOF'
 {
-  "type": "field",
   "domain": [
     "ipinfo.io"
   ],
@@ -4464,6 +4909,68 @@ add_warp_docker_integration() {
             return 0
             ;;
     esac
+}
+
+# Including module: view-logs.sh
+
+
+view_logs() {
+    local dir=""
+    local has_panel=false
+    local has_node=false
+
+    [ -d "$REMNAWAVE_DIR" ] && has_panel=true
+    [ -d "$LOCAL_REMNANODE_DIR" ] && has_node=true
+    [ -d "$REMNANODE_DIR" ] && has_node=true
+
+    if [ "$has_panel" = false ] && [ "$has_node" = false ]; then
+        echo
+        show_error "$(t logs_dir_not_found)"
+        echo -e "${BOLD_YELLOW}$(t prompt_enter_to_return)${NC}"
+        read -r
+        return 1
+    fi
+
+    if [ "$has_panel" = true ] && [ -d "$LOCAL_REMNANODE_DIR" ]; then
+        echo
+        echo -e "${BOLD_GREEN}$(t logs_select_component)${NC}"
+        echo
+        echo -e "${GREEN}1.${NC} $(t logs_option_panel)"
+        echo -e "${GREEN}2.${NC} $(t logs_option_node)"
+        echo
+        echo -e "${GREEN}0.${NC} $(t logs_option_back)"
+        echo
+        echo -ne "${BOLD_BLUE_MENU}$(t main_menu_select_option) ${NC}"
+        read -r choice
+
+        case $choice in
+            1) dir="$REMNAWAVE_DIR" ;;
+            2) dir="$LOCAL_REMNANODE_DIR" ;;
+            0) return 0 ;;
+            *) return 0 ;;
+        esac
+    elif [ "$has_panel" = true ]; then
+        dir="$REMNAWAVE_DIR"
+    elif [ -d "$REMNANODE_DIR" ]; then
+        dir="$REMNANODE_DIR"
+    fi
+
+    cd "$dir"
+
+    if ! docker compose ps -q 2>/dev/null | grep -q .; then
+        echo
+        show_error "$(t logs_container_not_running)"
+        echo -e "${BOLD_YELLOW}$(t prompt_enter_to_return)${NC}"
+        read -r
+        return 1
+    fi
+
+    echo
+    show_info "$(t logs_viewing)" "$YELLOW"
+    show_info "$(t logs_exit_hint)" "$ORANGE"
+    echo
+
+    docker compose logs -f -t
 }
 
 # Including module: full-auth.sh
@@ -4704,7 +5211,7 @@ configure_vless_panel_only() {
 
     local private_key=$(echo "$keys_result" | cut -d':' -f1)
 
-    generate_xray_config "$config_file" "$SELF_STEAL_DOMAIN" "$CADDY_LOCAL_PORT" "$private_key"
+    generate_xray_config "$config_file" "$SELF_STEAL_DOMAIN" "$CADDY_SOCKET_PATH" "$private_key"
 
     local xray_config=$(cat "$config_file")
 
@@ -4769,11 +5276,11 @@ configure_vless_panel_only() {
 # Including module: caddy-cookie-auth.sh
 
 setup_caddy_for_panel() {
-	local BACKEND_URL=127.0.0.1:3000
-	local SUB_BACKEND_URL=127.0.0.1:3010
-	cd $REMNAWAVE_DIR/caddy
+    local BACKEND_URL=127.0.0.1:3000
+    local SUB_BACKEND_URL=127.0.0.1:3010
+    cd $REMNAWAVE_DIR/caddy
 
-	cat >docker-compose.yml <<EOF
+    cat >docker-compose.yml <<EOF
 services:
   caddy:
     image: caddy:2.9.1
@@ -4785,7 +5292,6 @@ services:
       - ./logs:/var/log/caddy
       - remnawave-caddy-ssl-data:/data
     environment:
-      - CADDY_LOCAL_PORT=$CADDY_LOCAL_PORT
       - SELF_STEAL_DOMAIN=$SELF_STEAL_DOMAIN
       - PANEL_DOMAIN=$PANEL_DOMAIN
       - SUB_DOMAIN=$SUB_DOMAIN
@@ -4801,66 +5307,61 @@ volumes:
     name: remnawave-caddy-ssl-data
 EOF
 
-	cat >Caddyfile <<"EOF"
+    cat >Caddyfile <<"EOF"
 {
-	admin   off
+    admin   off
 }
 
 https://{$SELF_STEAL_DOMAIN} {
-	root * /var/www/html
-	try_files {path} /index.html
-	file_server
+    root * /var/www/html
+    try_files {path} /index.html
+    file_server
 }
 
 https://{$PANEL_DOMAIN} {
-	@has_token_param {
-		query caddy={$PANEL_SECRET_KEY}
-	}
+    @has_token_param {
+        query caddy={$PANEL_SECRET_KEY}
+    }
 
-	handle @has_token_param {
-		header +Set-Cookie "caddy={$PANEL_SECRET_KEY}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=31536000"
-	}
+    handle @has_token_param {
+        header +Set-Cookie "caddy={$PANEL_SECRET_KEY}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=31536000"
+    }
 
-	@unauthorized {
-		not header Cookie *caddy={$PANEL_SECRET_KEY}*
-		not query caddy={$PANEL_SECRET_KEY}
-	}
+    @unauthorized {
+        not header Cookie *caddy={$PANEL_SECRET_KEY}*
+        not query caddy={$PANEL_SECRET_KEY}
+    }
 
-	handle @unauthorized {
-		root * /var/www/html
-		try_files {path} /index.html
-		file_server
-	}
+    handle @unauthorized {
+        root * /var/www/html
+        try_files {path} /index.html
+        file_server
+    }
 
-	reverse_proxy {$BACKEND_URL} {
-		header_up X-Real-IP {remote}
-		header_up Host {host}
-	}
+    reverse_proxy {$BACKEND_URL} {
+        header_up X-Real-IP {remote}
+        header_up Host {host}
+    }
 }
 
 https://{$SUB_DOMAIN} {
-	handle {
-		reverse_proxy {$SUB_BACKEND_URL} {
-			header_up X-Real-IP {remote}
-			header_up Host {host}
-		}
-	}
-}
-
-:{$CADDY_LOCAL_PORT} {
-	tls internal
-	respond 204
+    handle {
+        reverse_proxy {$SUB_BACKEND_URL} {
+            header_up X-Real-IP {remote}
+            header_up Host {host}
+        }
+    }
 }
 
 :80 {
-	bind 0.0.0.0
-	respond 204
+    bind 0.0.0.0
+    respond 204
 }
 EOF
 
-	create_makefile "$REMNAWAVE_DIR/caddy"
+    create_makefile "$REMNAWAVE_DIR/caddy"
 
-	create_static_site "$REMNAWAVE_DIR/caddy"
+    create_static_site "$REMNAWAVE_DIR/caddy"
 }
 
 # Including module: caddy-full-auth.sh
@@ -4996,7 +5497,6 @@ services:
             - AUTHP_ADMIN_USER=$AUTHP_ADMIN_USER
             - AUTHP_ADMIN_EMAIL=$AUTHP_ADMIN_EMAIL
             - AUTHP_ADMIN_SECRET=$AUTHP_ADMIN_SECRET
-            - HTTPS_PORT=$CADDY_LOCAL_PORT
             - CADDY_SELF_STEAL_DOMAIN=$SELF_STEAL_DOMAIN
             - CADDY_SUB_DOMAIN=$SUB_DOMAIN
         volumes:
@@ -5137,18 +5637,44 @@ install_panel_only() {
 # Including module: selfsteal.sh
 
 
-setup_selfsteal() {
-    mkdir -p $SELFSTEAL_DIR/html && cd $SELFSTEAL_DIR
 
-    cat >.env <<EOF
-SELF_STEAL_DOMAIN=$SELF_STEAL_DOMAIN
-CADDY_LOCAL_PORT=$CADDY_LOCAL_PORT
-EOF
-
+create_caddyfile_socket() {
     cat >Caddyfile <<'EOF'
 {
     admin   off
-    https_port {$CADDY_LOCAL_PORT}
+    servers {
+        listener_wrappers {
+            proxy_protocol
+            tls
+        }
+    }
+    auto_https disable_redirects
+}
+
+http://{$SELF_STEAL_DOMAIN} {
+    bind 0.0.0.0
+    redir https://{$SELF_STEAL_DOMAIN}{uri} permanent
+}
+
+https://{$SELF_STEAL_DOMAIN} {
+    bind unix/{$CADDY_SOCKET_PATH}|0666
+    root * /var/www/html
+    try_files {path} /index.html
+    file_server
+}
+
+:80 {
+    bind 0.0.0.0
+    respond 204
+}
+EOF
+}
+
+create_caddyfile_port() {
+    cat >Caddyfile <<'EOF'
+{
+    admin   off
+    https_port {$SELFSTEAL_PORT}
     default_bind 127.0.0.1
     servers {
         listener_wrappers {
@@ -5172,8 +5698,7 @@ https://{$SELF_STEAL_DOMAIN} {
     file_server
 }
 
-
-:{$CADDY_LOCAL_PORT} {
+:{$SELFSTEAL_PORT} {
     tls internal
     respond 204
 }
@@ -5183,20 +5708,31 @@ https://{$SELF_STEAL_DOMAIN} {
     respond 204
 }
 EOF
+}
 
+create_docker_compose_socket() {
     cat >docker-compose.yml <<EOF
 services:
-  caddy:
-    image: caddy:2.9.1
-    container_name: caddy-selfsteal
-    restart: unless-stopped
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - ./html:/var/www/html
-      - remnawave-caddy-ssl-data:/data
-    env_file:
-      - .env
-    network_mode: "host"
+    caddy:
+        image: caddy:2.9.1
+        container_name: caddy-selfsteal
+        restart: unless-stopped
+        command: sh -c 'rm -f /dev/shm/caddy.sock && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile'
+        environment:
+            - CADDY_SOCKET_PATH=$CADDY_SOCKET_PATH
+            - SELF_STEAL_DOMAIN=$SELF_STEAL_DOMAIN
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile
+            - ./html:/var/www/html
+            - /dev/shm:/dev/shm
+            - remnawave-caddy-ssl-data:/data
+        network_mode: host
+        healthcheck:
+            test: ["CMD", "test", "-S", "/dev/shm/caddy.sock"]
+            interval: 2s
+            timeout: 5s
+            retries: 15
+            start_period: 5s
 
 volumes:
     remnawave-caddy-ssl-data:
@@ -5204,15 +5740,59 @@ volumes:
         external: false
         name: remnawave-caddy-ssl-data
 EOF
+}
+
+create_docker_compose_port() {
+    cat >docker-compose.yml <<EOF
+services:
+    caddy:
+        image: caddy:2.9.1
+        container_name: caddy-selfsteal
+        restart: unless-stopped
+        environment:
+            - SELFSTEAL_PORT=$SELFSTEAL_PORT
+            - SELF_STEAL_DOMAIN=$SELF_STEAL_DOMAIN
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile
+            - ./html:/var/www/html
+            - remnawave-caddy-ssl-data:/data
+        network_mode: host
+        healthcheck:
+            test: ["CMD", "wget", "-q", "--spider", "http://localhost:80"]
+            interval: 2s
+            timeout: 5s
+            retries: 15
+            start_period: 5s
+
+volumes:
+    remnawave-caddy-ssl-data:
+        driver: local
+        external: false
+        name: remnawave-caddy-ssl-data
+EOF
+}
+
+setup_selfsteal() {
+    local connection_type="${1:-socket}"
+
+    mkdir -p "$SELFSTEAL_DIR/html"
+    cd "$SELFSTEAL_DIR"
+
+    if [ "$connection_type" = "port" ]; then
+        create_caddyfile_port
+        create_docker_compose_port
+    else
+        create_caddyfile_socket
+        create_docker_compose_socket
+    fi
 
     create_makefile "$SELFSTEAL_DIR"
-
     create_static_site "$SELFSTEAL_DIR"
 
     mkdir -p logs
 
     if ! start_container "$SELFSTEAL_DIR" "Caddy"; then
-        show_info "$(t selfsteal_installation_stopped)" "$BOLD_RED"
+        show_error "$(t selfsteal_installation_stopped)"
         exit 1
     fi
 
@@ -5220,32 +5800,69 @@ EOF
 
     if [ "$CADDY_STATUS" = "running" ]; then
         echo -e "${LIGHT_GREEN}$(t selfsteal_domain_info) ${BOLD_GREEN}$SELF_STEAL_DOMAIN${NC}"
-        echo -e "${LIGHT_GREEN}$(t selfsteal_port_info) ${BOLD_GREEN}$CADDY_LOCAL_PORT${NC}"
+        if [ "$connection_type" = "port" ]; then
+            echo -e "${LIGHT_GREEN}$(t selfsteal_port_info) ${BOLD_GREEN}$SELFSTEAL_PORT${NC}"
+        fi
         echo -e "${LIGHT_GREEN}$(t selfsteal_directory_info) ${BOLD_GREEN}$SELFSTEAL_DIR${NC}"
         echo
     fi
-
-    unset SELF_STEAL_DOMAIN
-    unset CADDY_LOCAL_PORT
 }
 
 # Including module: node.sh
 
+XRAY_CONNECTION_TYPE=""
+
+select_xray_connection_type() {
+    echo -e "${BOLD_BLUE}$(t node_xray_connection_type)${NC}"
+    echo
+    echo -e "  ${BOLD_GREEN}1)${NC} $(t node_xray_connection_socket)"
+    echo -e "     ${YELLOW}$(t node_xray_connection_socket_desc)${NC}"
+    echo
+    echo -e "  ${BOLD_GREEN}2)${NC} $(t node_xray_connection_port)"
+    echo -e "     ${YELLOW}$(t node_xray_connection_port_desc)${NC}"
+    echo
+
+    while true; do
+        read -p "$(echo -e "${ORANGE}$(t main_menu_select_option) ${NC}")" choice
+        case $choice in
+            1)
+                XRAY_CONNECTION_TYPE="socket"
+                break
+                ;;
+            2)
+                XRAY_CONNECTION_TYPE="port"
+                break
+                ;;
+            *)
+                echo -e "${BOLD_RED}$(t error_invalid_choice)${NC}"
+                ;;
+        esac
+    done
+    echo
+}
+
 create_node_docker_compose() {
     local certificate="$1"
-    mkdir -p $REMNANODE_DIR && cd $REMNANODE_DIR
-    cat >docker-compose.yml <<EOL
+
+    mkdir -p "$REMNANODE_DIR"
+    cd "$REMNANODE_DIR"
+
+    cat >docker-compose.yml <<EOF
 services:
-  remnanode:
-    container_name: remnanode
-    hostname: remnanode
-    image: remnawave/node:latest
-    network_mode: host
-    restart: always
-    environment:
-      - NODE_PORT=$NODE_PORT
-      - SECRET_KEY="$certificate"
-EOL
+    remnanode:
+        container_name: remnanode
+        hostname: remnanode
+        image: remnawave/node:latest
+        network_mode: host
+        restart: always
+        environment:
+            - NODE_PORT=$NODE_PORT
+            - SECRET_KEY="$certificate"
+        volumes:
+            - /dev/shm:/dev/shm
+EOF
+
+    create_makefile "$REMNANODE_DIR"
 }
 
 collect_node_selfsteal_domain() {
@@ -5253,16 +5870,6 @@ collect_node_selfsteal_domain() {
 }
 
 check_node_ports() {
-    if CADDY_LOCAL_PORT=$(check_required_port "9443"); then
-        show_info "$(t config_caddy_port_available)"
-    else
-        show_error "$(t node_port_9443_in_use)"
-        show_error "$(t node_separate_port_9443)"
-        show_error "$(t node_free_port_9443)"
-        show_error "$(t node_cannot_continue_9443)"
-        exit 1
-    fi
-
     if NODE_PORT=$(check_required_port "2222"); then
         show_info "$(t config_node_port_available)"
     else
@@ -5300,17 +5907,6 @@ collect_node_ssl_certificate() {
     done
 }
 
-start_node_and_show_results() {
-    if ! start_container "$REMNANODE_DIR" "Remnawave Node"; then
-        show_info "$(t services_installation_stopped)" "$BOLD_RED"
-        exit 1
-    fi
-
-    echo -e "${LIGHT_GREEN}$(t node_port_info) ${BOLD_GREEN}$NODE_PORT${NC}"
-    echo -e "${LIGHT_GREEN}$(t node_directory_info) ${BOLD_GREEN}$REMNANODE_DIR${NC}"
-    echo
-}
-
 collect_panel_ip() {
     while true; do
         PANEL_IP=$(simple_read_domain_or_ip "$(t node_enter_panel_ip)" "" "ip_only")
@@ -5328,10 +5924,28 @@ allow_ufw_node_port_from_panel_ip() {
     ufw reload >/dev/null 2>&1
 }
 
+start_node_and_show_results() {
+    if [ "$XRAY_CONNECTION_TYPE" = "socket" ]; then
+        if ! wait_for_caddy_socket 30; then
+            show_error "$(t error_caddy_socket_timeout)"
+            exit 1
+        fi
+    fi
+
+    if ! start_container "$REMNANODE_DIR" "Remnawave Node"; then
+        show_error "$(t services_installation_stopped)"
+        exit 1
+    fi
+
+    echo -e "${LIGHT_GREEN}$(t node_port_info) ${BOLD_GREEN}$NODE_PORT${NC}"
+    echo -e "${LIGHT_GREEN}$(t node_directory_info) ${BOLD_GREEN}$REMNANODE_DIR${NC}"
+    echo
+}
+
 setup_node() {
     clear
 
-    if ! prepare_installation; then
+    if ! prepare_node_installation; then
         return 1
     fi
 
@@ -5343,18 +5957,20 @@ setup_node() {
 
     check_node_ports
 
+    select_xray_connection_type
+
     collect_node_ssl_certificate
 
     create_node_docker_compose "$CERTIFICATE"
 
-    create_makefile "$REMNANODE_DIR"
-
-    setup_selfsteal
+    setup_selfsteal "$XRAY_CONNECTION_TYPE"
 
     start_node_and_show_results
 
     unset CERTIFICATE
     unset NODE_PORT
+    unset SELF_STEAL_DOMAIN
+    unset XRAY_CONNECTION_TYPE
 
     echo -e "\n${BOLD_GREEN}$(t node_press_enter_return)${NC}"
     read -r
@@ -5375,7 +5991,7 @@ configure_vless_all_in_one() {
     
     local private_key=$(echo "$keys_result" | cut -d':' -f1)
     
-    generate_xray_config "$config_file" "$SELF_STEAL_DOMAIN" "$CADDY_LOCAL_PORT" "$private_key"
+    generate_xray_config "$config_file" "$SELF_STEAL_DOMAIN" "$CADDY_SOCKET_PATH" "$private_key"
     
     local xray_config=$(cat "$config_file")
     
@@ -5433,194 +6049,200 @@ configure_vless_all_in_one() {
 
 
 setup_node_all_in_one() {
-  local panel_url=$1
-  local token=$2
-  local NODE_PORT=$3
+    local panel_url=$1
+    local token=$2
+    local node_port=$3
 
-  create_dir "$LOCAL_REMNANODE_DIR"
+    mkdir -p "$LOCAL_REMNANODE_DIR"
+    cd "$LOCAL_REMNANODE_DIR"
 
-  cd "$LOCAL_REMNANODE_DIR"
+    local pubkey=$(get_public_key "$panel_url" "$token" "$PANEL_DOMAIN")
 
-  local pubkey=$(get_public_key "$panel_url" "$token" "$PANEL_DOMAIN")
+    if [ -z "$pubkey" ]; then
+        return 1
+    fi
 
-  if [ -z "$pubkey" ]; then
-    return 1
-  fi
-
-  cat >docker-compose.yml <<EOL
+    cat >docker-compose.yml <<EOF
 services:
-  remnanode:
-    container_name: remnanode
-    hostname: remnanode
-    image: remnawave/node:latest
-    network_mode: host
-    restart: always
-    environment:
-      - NODE_PORT=$NODE_PORT
-      - SECRET_KEY="$pubkey"
-EOL
+    remnanode:
+        image: remnawave/node:$REMNAWAVE_NODE_TAG
+        container_name: remnanode
+        hostname: remnanode
+        restart: always
+        environment:
+            - NODE_PORT=$node_port
+            - SECRET_KEY="$pubkey"
+        volumes:
+            - /dev/shm:/dev/shm
+        network_mode: host
+EOF
 
-  create_makefile "$LOCAL_REMNANODE_DIR"
+    create_makefile "$LOCAL_REMNANODE_DIR"
+}
+
+start_caddy_all_in_one() {
+    if ! start_container "$REMNAWAVE_DIR/caddy" "Caddy"; then
+        show_error "$(t services_installation_stopped)"
+        exit 1
+    fi
+}
+
+start_node_all_in_one() {
+    if ! wait_for_caddy_socket 30; then
+        show_error "$(t error_caddy_socket_timeout)"
+        exit 1
+    fi
+
+    if ! start_container "$LOCAL_REMNANODE_DIR" "Remnawave Node"; then
+        show_error "$(t services_installation_stopped)"
+        exit 1
+    fi
 }
 
 setup_and_start_all_in_one_node() {
-  setup_node_all_in_one "127.0.0.1:3000" "$REG_TOKEN" "$NODE_PORT"
-
-  if ! start_container "$LOCAL_REMNANODE_DIR" "Remnawave Node"; then
-    show_info "$(t services_installation_stopped)" "$BOLD_RED"
-    exit 1
-  fi
+    setup_node_all_in_one "127.0.0.1:3000" "$REG_TOKEN" "$NODE_PORT"
+    start_node_all_in_one
 }
 
 # Including module: caddy-cookie-auth.sh
 
-create_docker_compose_cookie_auth() {
-	local BACKEND_URL=127.0.0.1:3000
-	local SUB_BACKEND_URL=127.0.0.1:3010
+setup_caddy_all_in_one_cookie_auth() {
+    local BACKEND_URL=127.0.0.1:3000
+    local SUB_BACKEND_URL=127.0.0.1:3010
 
-	cat >docker-compose.yml <<EOF
-services:
-  caddy:
-    image: caddy:2.9.1
-    container_name: caddy-remnawave
-    restart: unless-stopped
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - ./html:/var/www/html
-      - ./logs:/var/log/caddy
-      - remnawave-caddy-ssl-data:/data
-    environment:
-      - CADDY_LOCAL_PORT=$CADDY_LOCAL_PORT
-      - SELF_STEAL_DOMAIN=$SELF_STEAL_DOMAIN
-      - PANEL_DOMAIN=$PANEL_DOMAIN
-      - SUB_DOMAIN=$SUB_DOMAIN
-      - BACKEND_URL=$BACKEND_URL
-      - SUB_BACKEND_URL=$SUB_BACKEND_URL
-      - PANEL_SECRET_KEY=$PANEL_SECRET_KEY
-    network_mode: "host"
+    mkdir -p "$REMNAWAVE_DIR/caddy"
+    cd "$REMNAWAVE_DIR/caddy"
 
-volumes:
-  remnawave-caddy-ssl-data:
-    driver: local
-    external: false
-    name: remnawave-caddy-ssl-data
-EOF
-}
-
-create_Caddyfile_cookie_auth() {
-
-	cat >Caddyfile <<"EOF"
+    cat >Caddyfile <<"EOF"
 {
-	admin   off
-	https_port {$CADDY_LOCAL_PORT}
-	default_bind 127.0.0.1
-	servers {
-		listener_wrappers {
-			proxy_protocol {
-				allow 127.0.0.1/32
-			}
-			tls
-		}
-	}
-	auto_https disable_redirects
+    admin   off
+    servers {
+        listener_wrappers {
+            proxy_protocol
+            tls
+        }
+    }
+    auto_https disable_redirects
 }
 
 http://{$SELF_STEAL_DOMAIN} {
-	bind 0.0.0.0
-	redir https://{$SELF_STEAL_DOMAIN}{uri} permanent
+    bind 0.0.0.0
+    redir https://{$SELF_STEAL_DOMAIN}{uri} permanent
 }
 
 https://{$SELF_STEAL_DOMAIN} {
-	root * /var/www/html
-	try_files {path} /index.html
-	file_server
+    bind unix/{$CADDY_SOCKET_PATH}|0666
+    root * /var/www/html
+    try_files {path} /index.html
+    file_server
 }
 
 http://{$PANEL_DOMAIN} {
-	bind 0.0.0.0
-	redir https://{$PANEL_DOMAIN}{uri} permanent
+    bind 0.0.0.0
+    redir https://{$PANEL_DOMAIN}{uri} permanent
 }
 
 https://{$PANEL_DOMAIN} {
-	@has_token_param {
-		query caddy={$PANEL_SECRET_KEY}
-	}
+    bind unix/{$CADDY_SOCKET_PATH}|0666
 
-	handle @has_token_param {
-		header +Set-Cookie "caddy={$PANEL_SECRET_KEY}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=2592000"
-	}
+    @has_token_param {
+        query caddy={$PANEL_SECRET_KEY}
+    }
 
-	@unauthorized {
-		not header Cookie *caddy={$PANEL_SECRET_KEY}*
-		not query caddy={$PANEL_SECRET_KEY}
-	}
+    handle @has_token_param {
+        header +Set-Cookie "caddy={$PANEL_SECRET_KEY}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=2592000"
+    }
 
-	handle @unauthorized {
-		root * /var/www/html
-		try_files {path} /index.html
-		file_server
-	}
+    @unauthorized {
+        not header Cookie *caddy={$PANEL_SECRET_KEY}*
+        not query caddy={$PANEL_SECRET_KEY}
+    }
 
-	reverse_proxy {$BACKEND_URL} {
-		header_up X-Real-IP {remote}
-		header_up Host {host}
-	}
+    handle @unauthorized {
+        root * /var/www/html
+        try_files {path} /index.html
+        file_server
+    }
+
+    reverse_proxy {$BACKEND_URL} {
+        header_up X-Real-IP {remote}
+        header_up Host {host}
+    }
 }
 
 http://{$SUB_DOMAIN} {
-	bind 0.0.0.0
-	redir https://{$SUB_DOMAIN}{uri} permanent
+    bind 0.0.0.0
+    redir https://{$SUB_DOMAIN}{uri} permanent
 }
 
 https://{$SUB_DOMAIN} {
-	handle {
-		reverse_proxy {$SUB_BACKEND_URL} {
-			header_up X-Real-IP {remote}
-			header_up Host {host}
-		}
-	}
-}
-
-:{$CADDY_LOCAL_PORT} {
-	tls internal
-	respond 204
+    bind unix/{$CADDY_SOCKET_PATH}|0666
+    handle {
+        reverse_proxy {$SUB_BACKEND_URL} {
+            header_up X-Real-IP {remote}
+            header_up Host {host}
+        }
+    }
 }
 
 :80 {
-	bind 0.0.0.0
-	respond 204
+    bind 0.0.0.0
+    respond 204
 }
 EOF
 
-}
+    cat >docker-compose.yml <<EOF
+services:
+    caddy:
+        image: caddy:2.9.1
+        container_name: caddy-remnawave
+        restart: unless-stopped
+        command: sh -c 'rm -f /dev/shm/caddy.sock && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile'
+        environment:
+            - CADDY_SOCKET_PATH=$CADDY_SOCKET_PATH
+            - SELF_STEAL_DOMAIN=$SELF_STEAL_DOMAIN
+            - PANEL_DOMAIN=$PANEL_DOMAIN
+            - SUB_DOMAIN=$SUB_DOMAIN
+            - BACKEND_URL=$BACKEND_URL
+            - SUB_BACKEND_URL=$SUB_BACKEND_URL
+            - PANEL_SECRET_KEY=$PANEL_SECRET_KEY
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile
+            - ./html:/var/www/html
+            - ./logs:/var/log/caddy
+            - /dev/shm:/dev/shm
+            - remnawave-caddy-ssl-data:/data
+        network_mode: host
+        healthcheck:
+            test: ["CMD", "test", "-S", "/dev/shm/caddy.sock"]
+            interval: 2s
+            timeout: 5s
+            retries: 15
+            start_period: 5s
 
-setup_caddy_all_in_one_cookie_auth() {
-	cd $REMNAWAVE_DIR/caddy
+volumes:
+    remnawave-caddy-ssl-data:
+        driver: local
+        external: false
+        name: remnawave-caddy-ssl-data
+EOF
 
-	create_docker_compose_cookie_auth
-
-	create_Caddyfile_cookie_auth
-
-	create_makefile "$REMNAWAVE_DIR/caddy"
-
-	create_static_site "$REMNAWAVE_DIR/caddy"
+    create_makefile "$REMNAWAVE_DIR/caddy"
+    create_static_site "$REMNAWAVE_DIR/caddy"
 }
 
 # Including module: caddy-full-auth.sh
 
 setup_caddy_all_in_one_full_auth() {
-	cd $REMNAWAVE_DIR/caddy
+    mkdir -p "$REMNAWAVE_DIR/caddy"
+    cd "$REMNAWAVE_DIR/caddy"
 
-	cat >Caddyfile <<"EOF"
+    cat >Caddyfile <<"EOF"
 {
     admin   off
-    https_port {$HTTPS_PORT}
-    default_bind 127.0.0.1
     servers {
         listener_wrappers {
-            proxy_protocol {
-                allow 127.0.0.1/32
-            }
+            proxy_protocol
             tls
         }
     }
@@ -5679,6 +6301,7 @@ http://{$REMNAWAVE_PANEL_DOMAIN} {
 }
 
 https://{$REMNAWAVE_PANEL_DOMAIN} {
+    bind unix/{$CADDY_SOCKET_PATH}|0666
 
     @login_path {
         path /{$REMNAWAVE_CUSTOM_LOGIN_ROUTE} /{$REMNAWAVE_CUSTOM_LOGIN_ROUTE}/ /{$REMNAWAVE_CUSTOM_LOGIN_ROUTE}/auth
@@ -5723,6 +6346,7 @@ http://{$CADDY_SELF_STEAL_DOMAIN} {
 }
 
 https://{$CADDY_SELF_STEAL_DOMAIN} {
+    bind unix/{$CADDY_SOCKET_PATH}|0666
     root * /var/www/html
     try_files {path} /index.html
     file_server
@@ -5734,6 +6358,7 @@ http://{$CADDY_SUB_DOMAIN} {
 }
 
 https://{$CADDY_SUB_DOMAIN} {
+    bind unix/{$CADDY_SOCKET_PATH}|0666
     handle {
         reverse_proxy http://127.0.0.1:3010 {
             header_up X-Real-IP {remote}
@@ -5747,24 +6372,20 @@ https://{$CADDY_SUB_DOMAIN} {
     }
 }
 
-:{$HTTPS_PORT} {
-    tls internal
-    respond 204
-}
-
 :80 {
     bind 0.0.0.0
     respond 204
 }
 EOF
 
-	cat >docker-compose.yml <<EOF
+    cat >docker-compose.yml <<EOF
 services:
     remnawave-caddy:
         image: remnawave/caddy-with-auth:latest
-        container_name: 'remnawave-caddy'
+        container_name: remnawave-caddy
         hostname: remnawave-caddy
         restart: always
+        command: sh -c 'rm -f /dev/shm/caddy.sock && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile'
         environment:
             - AUTH_TOKEN_LIFETIME=3600
             - REMNAWAVE_PANEL_DOMAIN=$PANEL_DOMAIN
@@ -5772,14 +6393,21 @@ services:
             - AUTHP_ADMIN_USER=$AUTHP_ADMIN_USER
             - AUTHP_ADMIN_EMAIL=$AUTHP_ADMIN_EMAIL
             - AUTHP_ADMIN_SECRET=$AUTHP_ADMIN_SECRET
-            - HTTPS_PORT=$CADDY_LOCAL_PORT
+            - CADDY_SOCKET_PATH=$CADDY_SOCKET_PATH
             - CADDY_SELF_STEAL_DOMAIN=$SELF_STEAL_DOMAIN
             - CADDY_SUB_DOMAIN=$SUB_DOMAIN
         volumes:
             - ./Caddyfile:/etc/caddy/Caddyfile
             - ./html:/var/www/html
+            - /dev/shm:/dev/shm
             - remnawave-caddy-ssl-data:/data
-        network_mode: "host"
+        network_mode: host
+        healthcheck:
+            test: ["CMD", "test", "-S", "/dev/shm/caddy.sock"]
+            interval: 2s
+            timeout: 5s
+            retries: 15
+            start_period: 5s
 
 volumes:
     remnawave-caddy-ssl-data:
@@ -5818,19 +6446,6 @@ setup_caddy_all_in_one() {
             setup_caddy_all_in_one_cookie_auth
         fi
     fi
-}
-
-start_caddy_all_in_one() {
-    local auth_type=$1
-
-    if [ "$auth_type" = "full" ]; then
-        start_caddy_full_auth
-    else
-        if [ "$auth_type" = "cookie" ]; then
-            start_caddy_cookie_auth
-        fi
-    fi
-
 }
 
 save_credentials_all_in_one() {
@@ -5902,7 +6517,7 @@ install_remnawave_all_in_one() {
 
     start_services
 
-    start_caddy_all_in_one $auth_type
+    start_caddy_all_in_one
 
     register_panel_user
     configure_vless_all_in_one
@@ -5923,21 +6538,81 @@ fi
 clear
 
 
+is_all_in_one_installation() {
+    [ -d "$REMNAWAVE_DIR" ] && [ -d "$LOCAL_REMNANODE_DIR" ]
+}
+
+build_main_menu() {
+    MENU_ITEMS=()
+    declare -gA MENU_ACTIONS
+
+    local n=1
+
+    MENU_ITEMS+=("$n:$(t main_menu_install_components)")
+    MENU_ACTIONS[$n]="install"
+    ((n++))
+
+    MENU_ITEMS+=("separator")
+
+    MENU_ITEMS+=("$n:$(t main_menu_update_components)")
+    MENU_ACTIONS[$n]="update"
+    ((n++))
+
+    MENU_ITEMS+=("$n:$(t main_menu_restart_panel)")
+    MENU_ACTIONS[$n]="restart"
+    ((n++))
+
+    MENU_ITEMS+=("$n:$(t main_menu_remove_panel)")
+    MENU_ACTIONS[$n]="remove"
+    ((n++))
+
+    MENU_ITEMS+=("$n:$(t main_menu_rescue_cli)")
+    MENU_ACTIONS[$n]="cli"
+    ((n++))
+
+    MENU_ITEMS+=("$n:$(t main_menu_show_credentials)")
+    MENU_ACTIONS[$n]="credentials"
+    ((n++))
+
+    MENU_ITEMS+=("$n:$(t main_menu_view_logs)")
+    MENU_ACTIONS[$n]="logs"
+    ((n++))
+
+    if is_all_in_one_installation; then
+        MENU_ITEMS+=("$n:$(t main_menu_panel_access)")
+        MENU_ACTIONS[$n]="panel_access"
+        ((n++))
+    fi
+
+    MENU_ITEMS+=("separator")
+
+    MENU_ITEMS+=("$n:$(get_bbr_menu_text)")
+    MENU_ACTIONS[$n]="bbr"
+    ((n++))
+
+    MENU_ITEMS+=("$n:$(t main_menu_warp_integration)")
+    MENU_ACTIONS[$n]="warp"
+    ((n++))
+}
+
 show_main_menu() {
+    build_main_menu
+
     clear
     echo -e "${BOLD_GREEN}$(t main_menu_title)${VERSION}${NC}"
     echo -e "${GREEN}$(t main_menu_script_branch)${NC} ${BLUE}$INSTALLER_BRANCH${NC} | ${GREEN}$(t main_menu_panel_branch)${NC} ${BLUE}$REMNAWAVE_BRANCH${NC}"
     echo
-    echo -e "${GREEN}1.${NC} $(t main_menu_install_components)"
-    echo
-    echo -e "${GREEN}2.${NC} $(t main_menu_update_components)"
-    echo -e "${GREEN}3.${NC} $(t main_menu_restart_panel)"
-    echo -e "${GREEN}4.${NC} $(t main_menu_remove_panel)"
-    echo -e "${GREEN}5.${NC} $(t main_menu_rescue_cli)"
-    echo -e "${GREEN}6.${NC} $(t main_menu_show_credentials)"
-    echo
-    echo -e "${GREEN}7.${NC} $(get_bbr_menu_text)"
-    echo -e "${GREEN}8.${NC} $(t main_menu_warp_integration)"
+
+    for item in "${MENU_ITEMS[@]}"; do
+        if [ "$item" = "separator" ]; then
+            echo
+        else
+            local num="${item%%:*}"
+            local text="${item#*:}"
+            echo -e "${GREEN}${num}.${NC} ${text}"
+        fi
+    done
+
     echo
     echo -e "${GREEN}0.${NC} $(t main_menu_exit)"
     echo
@@ -6002,34 +6677,43 @@ main() {
         show_main_menu
         read choice
 
-        case $choice in
-        1)
-            handle_installation_menu
-            ;;
-        2)
-            handle_update_menu
-            ;;
-        3)
-            restart_panel
-            ;;
-        4)
-            remove_previous_installation true
-            ;;
-        5)
-            run_remnawave_cli
-            ;;
-        6)
-            show_panel_credentials
-            ;;
-        7)
-            toggle_bbr
-            ;;
-        8)
-            add_warp_docker_integration
-            ;;
-        0)
+        if [ "$choice" = "0" ]; then
             echo "$(t exiting)"
             break
+        fi
+
+        local action="${MENU_ACTIONS[$choice]:-}"
+
+        case "$action" in
+        install)
+            handle_installation_menu
+            ;;
+        update)
+            handle_update_menu
+            ;;
+        restart)
+            restart_panel
+            ;;
+        remove)
+            remove_previous_installation true
+            ;;
+        cli)
+            run_remnawave_cli
+            ;;
+        credentials)
+            show_panel_credentials
+            ;;
+        logs)
+            view_logs
+            ;;
+        panel_access)
+            manage_panel_access
+            ;;
+        bbr)
+            toggle_bbr
+            ;;
+        warp)
+            add_warp_docker_integration
             ;;
         *)
             clear

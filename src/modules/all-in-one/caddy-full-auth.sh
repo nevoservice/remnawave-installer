@@ -1,20 +1,17 @@
 #!/bin/bash
 
-# Setting up Caddy for the Remnawave panel
+# Setting up Caddy for the Remnawave panel (All-in-One with full auth)
 setup_caddy_all_in_one_full_auth() {
-	cd $REMNAWAVE_DIR/caddy
+    mkdir -p "$REMNAWAVE_DIR/caddy"
+    cd "$REMNAWAVE_DIR/caddy"
 
-	# Creating the Caddyfile
-	cat >Caddyfile <<"EOF"
+    # Creating the Caddyfile
+    cat >Caddyfile <<"EOF"
 {
     admin   off
-    https_port {$HTTPS_PORT}
-    default_bind 127.0.0.1
     servers {
         listener_wrappers {
-            proxy_protocol {
-                allow 127.0.0.1/32
-            }
+            proxy_protocol
             tls
         }
     }
@@ -73,6 +70,7 @@ http://{$REMNAWAVE_PANEL_DOMAIN} {
 }
 
 https://{$REMNAWAVE_PANEL_DOMAIN} {
+    bind unix/{$CADDY_SOCKET_PATH}|0666
 
     @login_path {
         path /{$REMNAWAVE_CUSTOM_LOGIN_ROUTE} /{$REMNAWAVE_CUSTOM_LOGIN_ROUTE}/ /{$REMNAWAVE_CUSTOM_LOGIN_ROUTE}/auth
@@ -117,6 +115,7 @@ http://{$CADDY_SELF_STEAL_DOMAIN} {
 }
 
 https://{$CADDY_SELF_STEAL_DOMAIN} {
+    bind unix/{$CADDY_SOCKET_PATH}|0666
     root * /var/www/html
     try_files {path} /index.html
     file_server
@@ -128,6 +127,7 @@ http://{$CADDY_SUB_DOMAIN} {
 }
 
 https://{$CADDY_SUB_DOMAIN} {
+    bind unix/{$CADDY_SOCKET_PATH}|0666
     handle {
         reverse_proxy http://127.0.0.1:3010 {
             header_up X-Real-IP {remote}
@@ -141,25 +141,20 @@ https://{$CADDY_SUB_DOMAIN} {
     }
 }
 
-:{$HTTPS_PORT} {
-    tls internal
-    respond 204
-}
-
 :80 {
     bind 0.0.0.0
     respond 204
 }
 EOF
 
-	# Creating docker-compose.yml for Caddy
-	cat >docker-compose.yml <<EOF
+    cat >docker-compose.yml <<EOF
 services:
     remnawave-caddy:
         image: remnawave/caddy-with-auth:latest
-        container_name: 'remnawave-caddy'
+        container_name: remnawave-caddy
         hostname: remnawave-caddy
         restart: always
+        command: sh -c 'rm -f /dev/shm/caddy.sock && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile'
         environment:
             - AUTH_TOKEN_LIFETIME=3600
             - REMNAWAVE_PANEL_DOMAIN=$PANEL_DOMAIN
@@ -167,14 +162,21 @@ services:
             - AUTHP_ADMIN_USER=$AUTHP_ADMIN_USER
             - AUTHP_ADMIN_EMAIL=$AUTHP_ADMIN_EMAIL
             - AUTHP_ADMIN_SECRET=$AUTHP_ADMIN_SECRET
-            - HTTPS_PORT=$CADDY_LOCAL_PORT
+            - CADDY_SOCKET_PATH=$CADDY_SOCKET_PATH
             - CADDY_SELF_STEAL_DOMAIN=$SELF_STEAL_DOMAIN
             - CADDY_SUB_DOMAIN=$SUB_DOMAIN
         volumes:
             - ./Caddyfile:/etc/caddy/Caddyfile
             - ./html:/var/www/html
+            - /dev/shm:/dev/shm
             - remnawave-caddy-ssl-data:/data
-        network_mode: "host"
+        network_mode: host
+        healthcheck:
+            test: ["CMD", "test", "-S", "/dev/shm/caddy.sock"]
+            interval: 2s
+            timeout: 5s
+            retries: 15
+            start_period: 5s
 
 volumes:
     remnawave-caddy-ssl-data:
@@ -183,7 +185,6 @@ volumes:
         name: remnawave-caddy-ssl-data
 EOF
 
-    # Creating Makefile
     create_makefile "$REMNAWAVE_DIR/caddy"
     create_static_site "$REMNAWAVE_DIR/caddy"
 }

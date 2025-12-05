@@ -302,7 +302,6 @@ EOF
         # Add WARP routing rules
         local warp_routing_rule=$(cat <<'EOF'
 {
-  "type": "field",
   "domain": [
     "ipinfo.io"
   ],
@@ -437,7 +436,6 @@ EOF
     echo
     cat <<'EOF'
 {
-  "type": "field",
   "domain": [
     "ipinfo.io"
   ],

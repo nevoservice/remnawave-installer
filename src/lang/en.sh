@@ -127,7 +127,6 @@ TRANSLATIONS_EN[password_try_again]="Please try again."
 # Ports and network
 TRANSLATIONS_EN[port_panel_prompt]="Enter Panel port (default: 443): "
 TRANSLATIONS_EN[port_node_prompt]="Enter Node port (default: 2222): "
-TRANSLATIONS_EN[port_caddy_local_prompt]="Enter Caddy local port (default: 9443): "
 
 # Installation process
 TRANSLATIONS_EN[installation_preparing]="Preparing installation..."
@@ -168,6 +167,17 @@ TRANSLATIONS_EN[restart_installation_corrupted]="Panel installation may be corru
 TRANSLATIONS_EN[restart_starting_panel]="Starting main panel..."
 TRANSLATIONS_EN[restart_starting_subscription]="Starting subscription page..."
 TRANSLATIONS_EN[restart_success]="Panel restarted successfully"
+
+# Logs
+TRANSLATIONS_EN[main_menu_view_logs]="View logs"
+TRANSLATIONS_EN[logs_dir_not_found]="Error: installation directory not found! Neither /opt/remnawave nor /opt/remnanode exists."
+TRANSLATIONS_EN[logs_container_not_running]="Error: no containers are running!"
+TRANSLATIONS_EN[logs_viewing]="Viewing container logs..."
+TRANSLATIONS_EN[logs_exit_hint]="Press Ctrl+C to exit"
+TRANSLATIONS_EN[logs_select_component]="Select component to view logs:"
+TRANSLATIONS_EN[logs_option_panel]="Panel (backend, database, redis)"
+TRANSLATIONS_EN[logs_option_node]="Node"
+TRANSLATIONS_EN[logs_option_back]="Back"
 
 # Update
 TRANSLATIONS_EN[update_panel_dir_not_found]="Error: panel directory not found at /opt/remnawave!"
@@ -265,8 +275,6 @@ TRANSLATIONS_EN[spinner_downloading_static_files]="Downloading static files for 
 TRANSLATIONS_EN[config_invalid_arguments]="Error: invalid number of arguments. Should be even number of keys and values."
 TRANSLATIONS_EN[config_domain_already_used]="Domain"
 TRANSLATIONS_EN[config_domains_must_be_unique]="Each domain must be unique: panel domain, subscription domain, and selfsteal domain must all be different."
-TRANSLATIONS_EN[config_caddy_port_available]="Required Caddy port 9443 is available"
-TRANSLATIONS_EN[config_caddy_port_in_use]="Required Caddy port 9443 is already in use!"
 TRANSLATIONS_EN[config_node_port_available]="Required Node API port 2222 is available"
 TRANSLATIONS_EN[config_node_port_in_use]="Required Node API port 2222 is already in use!"
 TRANSLATIONS_EN[config_separate_installation_port_required]="For separate panel and node installation, port"
@@ -349,15 +357,11 @@ TRANSLATIONS_EN[vless_empty_response_xray]="Error: Empty response from server wh
 TRANSLATIONS_EN[vless_failed_update_xray]="Error: Failed to update Xray configuration."
 
 # Node
-TRANSLATIONS_EN[node_port_9443_in_use]="Required Caddy port 9443 is already in use!"
-TRANSLATIONS_EN[node_separate_port_9443]="For separate node installation, port 9443 must be available."
-TRANSLATIONS_EN[node_free_port_9443]="Please free up port 9443 and try again."
-TRANSLATIONS_EN[node_cannot_continue_9443]="Installation cannot continue with occupied port 9443"
 TRANSLATIONS_EN[node_port_2222_in_use]="Required Node API port 2222 is already in use!"
 TRANSLATIONS_EN[node_separate_port_2222]="For separate node installation, port 2222 must be available."
 TRANSLATIONS_EN[node_free_port_2222]="Please free up port 2222 and try again."
 TRANSLATIONS_EN[node_cannot_continue_2222]="Installation cannot continue with occupied port 2222"
-TRANSLATIONS_EN[node_enter_ssl_cert]="Enter the Secret Key (from node card or node creation window) and press Enter:"
+TRANSLATIONS_EN[node_enter_ssl_cert]="Enter the Secret Key (from node card / node creation window / panel installation script) and press Enter:"
 TRANSLATIONS_EN[node_ssl_cert_valid]="✓ Secret Key format is valid"
 TRANSLATIONS_EN[node_ssl_cert_invalid]="✗ Invalid Secret Key format. Please try again."
 TRANSLATIONS_EN[node_ssl_cert_expected]="Expected format: eyJub2RlQ2VydFBldW0iOiIuLi4..."
@@ -409,6 +413,11 @@ TRANSLATIONS_EN[selfsteal_installation_stopped]="Installation stopped"
 TRANSLATIONS_EN[selfsteal_domain_info]="• Domain:"
 TRANSLATIONS_EN[selfsteal_port_info]="• Port:"
 TRANSLATIONS_EN[selfsteal_directory_info]="• Directory:"
+
+# Caddy socket
+TRANSLATIONS_EN[waiting_for_caddy_socket]="Waiting for Caddy socket to be ready..."
+TRANSLATIONS_EN[error_caddy_socket_timeout]="Timeout waiting for Caddy socket. Caddy may have failed to start."
+TRANSLATIONS_EN[caddy_socket_ready]="Caddy socket is ready"
 
 # WARP integration
 TRANSLATIONS_EN[warp_title]="WARP Integration Setup"
@@ -490,3 +499,26 @@ TRANSLATIONS_EN[warp_affected_nodes_profiles]="Affected nodes and profiles"
 TRANSLATIONS_EN[warp_nodes]="Nodes"
 TRANSLATIONS_EN[warp_profile]="profile"
 TRANSLATIONS_EN[warp_nodes_lowercase]="nodes"
+
+# Panel access (port 8443)
+TRANSLATIONS_EN[main_menu_panel_access]="Emergency panel access (port 8443)"
+TRANSLATIONS_EN[panel_access_menu_title]="Emergency Panel Access (Port 8443)"
+TRANSLATIONS_EN[panel_access_open]="Enable emergency access"
+TRANSLATIONS_EN[panel_access_close]="Disable emergency access"
+TRANSLATIONS_EN[panel_access_port_opened]="Emergency access enabled successfully"
+TRANSLATIONS_EN[panel_access_port_closed]="Emergency access disabled successfully"
+TRANSLATIONS_EN[panel_access_link]="Panel access link:"
+TRANSLATIONS_EN[panel_access_warning]="WARNING: Don't forget to disable emergency access after you're done!"
+TRANSLATIONS_EN[panel_access_already_open]="Emergency access is already enabled"
+TRANSLATIONS_EN[panel_access_already_closed]="Emergency access is already disabled"
+TRANSLATIONS_EN[panel_access_enabling]="Enabling emergency access..."
+TRANSLATIONS_EN[panel_access_disabling]="Disabling emergency access..."
+TRANSLATIONS_EN[panel_access_dir_not_found]="Panel directory not found. Install panel first."
+TRANSLATIONS_EN[panel_access_back]="Back to main menu"
+
+# Node Xray connection type
+TRANSLATIONS_EN[node_xray_connection_type]="Select Xray connection type:"
+TRANSLATIONS_EN[node_xray_connection_socket]="Unix Socket (recommended)"
+TRANSLATIONS_EN[node_xray_connection_port]="TCP Port (if you already used port mode in panel)"
+TRANSLATIONS_EN[node_xray_connection_socket_desc]="Uses /dev/shm/caddy.sock for internal communication"
+TRANSLATIONS_EN[node_xray_connection_port_desc]="Uses TCP port 9443 for Xray connection"

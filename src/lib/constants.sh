@@ -83,7 +83,10 @@ INSTALLER_REPO="https://raw.githubusercontent.com/xxphantom/remnawave-installer/
 # Main directories
 REMNAWAVE_DIR="/opt/remnawave"
 REMNANODE_DIR="/opt/remnanode"
-SELFSTEAL_DIR="/opt/remnanode/selfsteal"
 
-# Local node directory (with panel)
+CADDY_SOCKET_PATH="/dev/shm/caddy.sock"
+SELFSTEAL_PORT="9443"
+
+# Legacy directories (will be removed after refactoring)
+SELFSTEAL_DIR="/opt/remnanode/selfsteal"
 LOCAL_REMNANODE_DIR="$REMNAWAVE_DIR/node"

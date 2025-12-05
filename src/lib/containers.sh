@@ -4,11 +4,31 @@
 #                               DOCKER CONTAINER FUNCTIONS
 # ===================================================================================
 
+# Wait for Caddy socket to be ready
+wait_for_caddy_socket() {
+    local max_wait=${1:-30}
+    local elapsed=0
+
+    show_info "$(t waiting_for_caddy_socket)" "$ORANGE"
+
+    while [ ! -S "$CADDY_SOCKET_PATH" ]; do
+        if [ $elapsed -ge $max_wait ]; then
+            show_error "$(t error_caddy_socket_timeout)"
+            return 1
+        fi
+        sleep 1
+        ((elapsed++))
+    done
+
+    show_success "$(t caddy_socket_ready)"
+    return 0
+}
+
 remove_previous_installation() {
     local from_menu=${1:-false}
 
-    # Check if installation directory exists
-    if [ -d "$REMNAWAVE_DIR" ]; then
+    # Check if any installation directory exists (panel or node-only)
+    if [ -d "$REMNAWAVE_DIR" ] || [ -d "$REMNANODE_DIR" ]; then
         # Show warning and request confirmation (keep as is)
         if [ "$from_menu" = true ]; then
             show_warning "$(t removal_installation_detected)"
@@ -31,6 +51,7 @@ remove_previous_installation() {
         # Array of compose files to process
         local compose_configs=(
             "$REMNAWAVE_DIR/caddy/docker-compose.yml"
+            "$LOCAL_REMNANODE_DIR/docker-compose.yml"
             "$REMNAWAVE_DIR/subscription-page/docker-compose.yml"
             "$REMNAWAVE_DIR/docker-compose.yml"
             "$REMNANODE_DIR/docker-compose.yml"
@@ -68,9 +89,15 @@ remove_previous_installation() {
             fi
         done
 
-        # Remove directory
-        rm -rf "$REMNAWAVE_DIR" >/dev/null 2>&1 &
-        spinner $! "$(t spinner_removing_directory) $REMNAWAVE_DIR"
+        # Remove directories
+        if [ -d "$REMNAWAVE_DIR" ]; then
+            rm -rf "$REMNAWAVE_DIR" >/dev/null 2>&1 &
+            spinner $! "$(t spinner_removing_directory) $REMNAWAVE_DIR"
+        fi
+        if [ -d "$REMNANODE_DIR" ]; then
+            rm -rf "$REMNANODE_DIR" >/dev/null 2>&1 &
+            spinner $! "$(t spinner_removing_directory) $REMNANODE_DIR"
+        fi
 
         # Show result
         if [ "$from_menu" = true ]; then

@@ -20,8 +20,7 @@ configure_vless_panel_only() {
 
     local private_key=$(echo "$keys_result" | cut -d':' -f1)
 
-    # Generate Xray configuration for config profile
-    generate_xray_config "$config_file" "$SELF_STEAL_DOMAIN" "$CADDY_LOCAL_PORT" "$private_key"
+    generate_xray_config "$config_file" "$SELF_STEAL_DOMAIN" "$CADDY_SOCKET_PATH" "$private_key"
 
     # Read the generated config
     local xray_config=$(cat "$config_file")

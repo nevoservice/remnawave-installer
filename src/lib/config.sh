@@ -139,24 +139,10 @@ collect_domain_config() {
 }
 
 collect_ports_all_in_one() {
-    CADDY_LOCAL_PORT=$(get_available_port "9443" "Caddy")
     NODE_PORT=$(get_available_port "2222" "Node API")
 }
 
 collect_ports_separate_installation() {
-    # For separate installations, both CADDY_LOCAL_PORT and NODE_PORT must be fixed
-
-    # Check Caddy port 9443
-    if CADDY_LOCAL_PORT=$(check_required_port "9443"); then
-        show_info "$(t config_caddy_port_available)"
-    else
-        show_error "$(t config_caddy_port_in_use)"
-        show_error "$(t config_separate_installation_port_required) 9443."
-        show_error "$(t config_free_port_and_retry) 9443."
-        show_error "$(t config_installation_cannot_continue) 9443"
-        return 1
-    fi
-
     # Check Node API port 2222
     if NODE_PORT=$(check_required_port "2222"); then
         show_info "$(t config_node_port_available)"

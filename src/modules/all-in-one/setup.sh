@@ -30,19 +30,6 @@ setup_caddy_all_in_one() {
     fi
 }
 
-start_caddy_all_in_one() {
-    local auth_type=$1
-
-    if [ "$auth_type" = "full" ]; then
-        start_caddy_full_auth
-    else
-        if [ "$auth_type" = "cookie" ]; then
-            start_caddy_cookie_auth
-        fi
-    fi
-
-}
-
 save_credentials_all_in_one() {
     local auth_type=$1
 
@@ -116,7 +103,7 @@ install_remnawave_all_in_one() {
 
     start_services
 
-    start_caddy_all_in_one $auth_type
+    start_caddy_all_in_one
 
     register_panel_user
     configure_vless_all_in_one

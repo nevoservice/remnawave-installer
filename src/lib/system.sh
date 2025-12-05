@@ -145,7 +145,7 @@ create_dir() {
     fi
 }
 
-# Common preparation steps
+# Common preparation steps for panel installations
 prepare_installation() {
     local extra_deps=("$@")
     clear_screen
@@ -158,5 +158,21 @@ prepare_installation() {
 
     mkdir -p "$REMNAWAVE_DIR/caddy"
     cd "$REMNAWAVE_DIR"
+    return 0
+}
+
+# Preparation steps for node-only installation
+prepare_node_installation() {
+    local extra_deps=("$@")
+    clear_screen
+    install_dependencies "${extra_deps[@]}"
+
+    if ! remove_previous_installation; then
+        show_info "$(t system_installation_cancelled)"
+        return 1
+    fi
+
+    mkdir -p "$REMNANODE_DIR"
+    cd "$REMNANODE_DIR"
     return 0
 }

@@ -44,7 +44,7 @@ generate_vless_keys() {
 generate_xray_config() {
   local config_file="$1"
   local self_steal_domain="$2"
-  local CADDY_LOCAL_PORT="$3"
+  local socket_path="$3"
   local private_key="$4"
 
   local short_id=$(openssl rand -hex 8)
@@ -84,7 +84,7 @@ generate_xray_config() {
         "network": "tcp",
         "security": "reality",
         "realitySettings": {
-          "dest": "127.0.0.1:$CADDY_LOCAL_PORT",
+          "target": "$socket_path",
           "show": false,
           "xver": 1,
           "shortIds": [
@@ -114,11 +114,9 @@ generate_xray_config() {
         "ip": [
           "geoip:private"
         ],
-        "type": "field",
         "outboundTag": "BLOCK"
       },
       {
-        "type": "field",
         "protocol": [
           "bittorrent"
         ],
