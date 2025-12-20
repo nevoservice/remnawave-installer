@@ -99,14 +99,21 @@ install_remnawave_all_in_one() {
 
     setup_caddy_all_in_one $auth_type
 
-    setup_remnawave-subscription-page
-
-    start_services
+    start_panel
 
     start_caddy_all_in_one
 
     register_panel_user
     configure_vless_all_in_one
+
+    # Create API token and setup subscription page
+    SUBSCRIPTION_API_TOKEN=$(create_api_token "127.0.0.1:3000" "$REG_TOKEN" "$PANEL_DOMAIN")
+    if [ -z "$SUBSCRIPTION_API_TOKEN" ]; then
+        show_error "$(t api_failed_create_token)"
+        exit 1
+    fi
+    setup_remnawave-subscription-page "$SUBSCRIPTION_API_TOKEN"
+    start_subscription_page
 
     setup_and_start_all_in_one_node
 

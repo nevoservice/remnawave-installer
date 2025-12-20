@@ -275,7 +275,7 @@ logs:
 EOF
 }
 
-start_services() {
+start_panel() {
     echo
     show_info "$(t services_starting_containers)" "$BOLD_GREEN"
 
@@ -283,7 +283,10 @@ start_services() {
         show_info "$(t services_installation_stopped)" "$BOLD_RED"
         exit 1
     fi
+}
 
+# Start subscription page after API token is created
+start_subscription_page() {
     if ! start_container "$REMNAWAVE_DIR/subscription-page" "Subscription page"; then
         show_info "$(t services_installation_stopped)" "$BOLD_RED"
         exit 1

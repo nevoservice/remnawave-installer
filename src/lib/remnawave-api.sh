@@ -541,6 +541,36 @@ generate_x25519_keys_api() {
     echo "$private_key:$public_key"
 }
 
+# Create API token for subscription page
+create_api_token() {
+    local panel_url="$1"
+    local token="$2"
+    local panel_domain="$3"
+    local token_name="${4:-subscription-page-token}"
+
+    local temp_file=$(mktemp)
+    local token_data='{"tokenName":"'"$token_name"'"}'
+
+    make_api_request "POST" "http://$panel_url/api/tokens" "$token" "$panel_domain" "$token_data" >"$temp_file" 2>&1 &
+    spinner $! "$(t spinner_creating_api_token)"
+    local api_response=$(cat "$temp_file")
+    rm -f "$temp_file"
+
+    if [ -z "$api_response" ]; then
+        echo -e "${BOLD_RED}$(t api_failed_create_token)${NC}"
+        return 1
+    fi
+
+    if echo "$api_response" | jq -e '.response.token' >/dev/null 2>&1; then
+        local api_token=$(echo "$api_response" | jq -r '.response.token')
+        echo "$api_token"
+        return 0
+    else
+        echo -e "${BOLD_RED}$(t api_failed_create_token): $(echo "$api_response" | jq -r '.message // "Unknown error"')${NC}"
+        return 1
+    fi
+}
+
 # Common user registration
 register_panel_user() {
     REG_TOKEN=$(register_user "127.0.0.1:3000" "$PANEL_DOMAIN" "$SUPERADMIN_USERNAME" "$SUPERADMIN_PASSWORD")

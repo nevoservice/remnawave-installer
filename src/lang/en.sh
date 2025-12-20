@@ -255,6 +255,7 @@ TRANSLATIONS_EN[spinner_deleting_config_profile]="Deleting default configuration
 TRANSLATIONS_EN[spinner_getting_squads]="Getting list of squads..."
 TRANSLATIONS_EN[spinner_updating_squad]="Updating squad with new inbound..."
 TRANSLATIONS_EN[spinner_creating_host]="Creating host..."
+TRANSLATIONS_EN[spinner_creating_api_token]="Creating API token for Subscription Page..."
 TRANSLATIONS_EN[spinner_cleaning_services]="Cleaning up"
 TRANSLATIONS_EN[spinner_force_removing]="Force removing container"
 TRANSLATIONS_EN[spinner_removing_directory]="Removing directory"
@@ -333,6 +334,7 @@ TRANSLATIONS_EN[api_empty_response_creating_user]="Error: Empty response from se
 TRANSLATIONS_EN[api_failed_create_user_status]="Error: Failed to create user. HTTP status:"
 TRANSLATIONS_EN[api_failed_create_user_format]="Error: Failed to create user, invalid response format:"
 TRANSLATIONS_EN[api_failed_register_user]="Failed to register user."
+TRANSLATIONS_EN[api_failed_create_token]="Error: Failed to create API token for Subscription Page."
 TRANSLATIONS_EN[api_request_body_was]="Request body was:"
 TRANSLATIONS_EN[api_response]="Response:"
 

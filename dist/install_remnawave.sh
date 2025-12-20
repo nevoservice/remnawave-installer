@@ -336,6 +336,7 @@ TRANSLATIONS_EN[spinner_deleting_config_profile]="Deleting default configuration
 TRANSLATIONS_EN[spinner_getting_squads]="Getting list of squads..."
 TRANSLATIONS_EN[spinner_updating_squad]="Updating squad with new inbound..."
 TRANSLATIONS_EN[spinner_creating_host]="Creating host..."
+TRANSLATIONS_EN[spinner_creating_api_token]="Creating API token for Subscription Page..."
 TRANSLATIONS_EN[spinner_cleaning_services]="Cleaning up"
 TRANSLATIONS_EN[spinner_force_removing]="Force removing container"
 TRANSLATIONS_EN[spinner_removing_directory]="Removing directory"
@@ -410,6 +411,7 @@ TRANSLATIONS_EN[api_empty_response_creating_user]="Error: Empty response from se
 TRANSLATIONS_EN[api_failed_create_user_status]="Error: Failed to create user. HTTP status:"
 TRANSLATIONS_EN[api_failed_create_user_format]="Error: Failed to create user, invalid response format:"
 TRANSLATIONS_EN[api_failed_register_user]="Failed to register user."
+TRANSLATIONS_EN[api_failed_create_token]="Error: Failed to create API token for Subscription Page."
 TRANSLATIONS_EN[api_request_body_was]="Request body was:"
 TRANSLATIONS_EN[api_response]="Response:"
 
@@ -810,6 +812,7 @@ TRANSLATIONS_RU[spinner_deleting_config_profile]="Удаление профил�
 TRANSLATIONS_RU[spinner_getting_squads]="Получение списка сквадов..."
 TRANSLATIONS_RU[spinner_updating_squad]="Обновление сквада с новым подключением..."
 TRANSLATIONS_RU[spinner_creating_host]="Создание хоста..."
+TRANSLATIONS_RU[spinner_creating_api_token]="Создание API токена для Subscription Page..."
 TRANSLATIONS_RU[spinner_cleaning_services]="Очистка сервисов"
 TRANSLATIONS_RU[spinner_force_removing]="Принудительное удаление контейнера"
 TRANSLATIONS_RU[spinner_removing_directory]="Удаление директории"
@@ -884,6 +887,7 @@ TRANSLATIONS_RU[api_empty_response_creating_user]="Ошибка: Пустой о
 TRANSLATIONS_RU[api_failed_create_user_status]="Ошибка: Не удалось создать пользователя. HTTP статус:"
 TRANSLATIONS_RU[api_failed_create_user_format]="Ошибка: Не удалось создать пользователя, неверный формат ответа:"
 TRANSLATIONS_RU[api_failed_register_user]="Не удалось зарегистрировать пользователя."
+TRANSLATIONS_RU[api_failed_create_token]="Ошибка: Не удалось создать API токен для Subscription Page."
 TRANSLATIONS_RU[api_request_body_was]="Тело запроса было:"
 TRANSLATIONS_RU[api_response]="Ответ:"
 
@@ -1484,7 +1488,7 @@ logs:
 EOF
 }
 
-start_services() {
+start_panel() {
     echo
     show_info "$(t services_starting_containers)" "$BOLD_GREEN"
 
@@ -1492,7 +1496,9 @@ start_services() {
         show_info "$(t services_installation_stopped)" "$BOLD_RED"
         exit 1
     fi
+}
 
+start_subscription_page() {
     if ! start_container "$REMNAWAVE_DIR/subscription-page" "Subscription page"; then
         show_info "$(t services_installation_stopped)" "$BOLD_RED"
         exit 1
@@ -2681,6 +2687,35 @@ generate_x25519_keys_api() {
     fi
     
     echo "$private_key:$public_key"
+}
+
+create_api_token() {
+    local panel_url="$1"
+    local token="$2"
+    local panel_domain="$3"
+    local token_name="${4:-subscription-page-token}"
+
+    local temp_file=$(mktemp)
+    local token_data='{"tokenName":"'"$token_name"'"}'
+
+    make_api_request "POST" "http://$panel_url/api/tokens" "$token" "$panel_domain" "$token_data" >"$temp_file" 2>&1 &
+    spinner $! "$(t spinner_creating_api_token)"
+    local api_response=$(cat "$temp_file")
+    rm -f "$temp_file"
+
+    if [ -z "$api_response" ]; then
+        echo -e "${BOLD_RED}$(t api_failed_create_token)${NC}"
+        return 1
+    fi
+
+    if echo "$api_response" | jq -e '.response.token' >/dev/null 2>&1; then
+        local api_token=$(echo "$api_response" | jq -r '.response.token')
+        echo "$api_token"
+        return 0
+    else
+        echo -e "${BOLD_RED}$(t api_failed_create_token): $(echo "$api_response" | jq -r '.message // "Unknown error"')${NC}"
+        return 1
+    fi
 }
 
 register_panel_user() {
@@ -5180,6 +5215,8 @@ create_static_site() {
 # Including module: subscription-page.sh
 
 setup_remnawave-subscription-page() {
+    local api_token="$1"
+
     mkdir -p $REMNAWAVE_DIR/subscription-page
 
     cd $REMNAWAVE_DIR/subscription-page
@@ -5193,9 +5230,11 @@ services:
         restart: always
         environment:
             - REMNAWAVE_PANEL_URL=http://remnawave:3000
-            - SUBSCRIPTION_PAGE_PORT=3010
-            - META_TITLE="Subscription Page Title"
-            - META_DESCRIPTION="Subscription Page Description"
+            - REMNAWAVE_API_TOKEN=$api_token
+            - APP_PORT=3010
+            - SUBSCRIPTION_UI_DISPLAY_RAW_KEYS=true
+            - META_TITLE="Subscription page"
+            - META_DESCRIPTION="Subscription page description"
         ports:
             - '127.0.0.1:3010:3010'
         networks:
@@ -5653,13 +5692,20 @@ install_panel_only() {
     create_makefile "$REMNAWAVE_DIR"
 
     setup_caddy_panel_only $auth_type
-    setup_remnawave-subscription-page
 
-    start_services
+    start_panel
     start_caddy_panel_only $auth_type
 
     register_panel_user
     configure_vless_panel_only
+
+    SUBSCRIPTION_API_TOKEN=$(create_api_token "127.0.0.1:3000" "$REG_TOKEN" "$PANEL_DOMAIN")
+    if [ -z "$SUBSCRIPTION_API_TOKEN" ]; then
+        show_error "$(t api_failed_create_token)"
+        exit 1
+    fi
+    setup_remnawave-subscription-page "$SUBSCRIPTION_API_TOKEN"
+    start_subscription_page
 
     save_and_display_panel_only $auth_type
 }
@@ -6573,14 +6619,20 @@ install_remnawave_all_in_one() {
 
     setup_caddy_all_in_one $auth_type
 
-    setup_remnawave-subscription-page
-
-    start_services
+    start_panel
 
     start_caddy_all_in_one
 
     register_panel_user
     configure_vless_all_in_one
+
+    SUBSCRIPTION_API_TOKEN=$(create_api_token "127.0.0.1:3000" "$REG_TOKEN" "$PANEL_DOMAIN")
+    if [ -z "$SUBSCRIPTION_API_TOKEN" ]; then
+        show_error "$(t api_failed_create_token)"
+        exit 1
+    fi
+    setup_remnawave-subscription-page "$SUBSCRIPTION_API_TOKEN"
+    start_subscription_page
 
     setup_and_start_all_in_one_node
 

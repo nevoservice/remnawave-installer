@@ -122,17 +122,24 @@ install_panel_only() {
 
     create_makefile "$REMNAWAVE_DIR"
 
-    # Setup components
+    # Setup Caddy
     setup_caddy_panel_only $auth_type
-    setup_remnawave-subscription-page
 
-    # Start services
-    start_services
+    start_panel
     start_caddy_panel_only $auth_type
 
     # Register user and configure VLESS
     register_panel_user
     configure_vless_panel_only
+
+    # Create API token and setup subscription page
+    SUBSCRIPTION_API_TOKEN=$(create_api_token "127.0.0.1:3000" "$REG_TOKEN" "$PANEL_DOMAIN")
+    if [ -z "$SUBSCRIPTION_API_TOKEN" ]; then
+        show_error "$(t api_failed_create_token)"
+        exit 1
+    fi
+    setup_remnawave-subscription-page "$SUBSCRIPTION_API_TOKEN"
+    start_subscription_page
 
     # Save credentials and display results
     save_and_display_panel_only $auth_type

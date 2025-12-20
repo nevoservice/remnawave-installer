@@ -2,6 +2,8 @@
 
 # Installation and setup of remnawave-subscription-page
 setup_remnawave-subscription-page() {
+    local api_token="$1"
+
     mkdir -p $REMNAWAVE_DIR/subscription-page
 
     cd $REMNAWAVE_DIR/subscription-page
@@ -15,9 +17,11 @@ services:
         restart: always
         environment:
             - REMNAWAVE_PANEL_URL=http://remnawave:3000
-            - SUBSCRIPTION_PAGE_PORT=3010
-            - META_TITLE="Subscription Page Title"
-            - META_DESCRIPTION="Subscription Page Description"
+            - REMNAWAVE_API_TOKEN=$api_token
+            - APP_PORT=3010
+            - SUBSCRIPTION_UI_DISPLAY_RAW_KEYS=true
+            - META_TITLE="Subscription page"
+            - META_DESCRIPTION="Subscription page description"
         ports:
             - '127.0.0.1:3010:3010'
         networks:
