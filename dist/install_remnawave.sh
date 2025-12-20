@@ -57,7 +57,7 @@ GREEN=$(tput setaf 2)
 YELLOW=$(tput setaf 3)
 NC=$(tput sgr0)
 
-VERSION="2.0.4"
+VERSION="2.1.0"
 
 if [[ "$REMNAWAVE_BRANCH" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
     REMNAWAVE_BACKEND_TAG="$REMNAWAVE_BRANCH"
