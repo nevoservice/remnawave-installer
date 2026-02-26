@@ -4,7 +4,8 @@
 
 [Читать на русском](README.ru.md)
 
-This is a modification of the main installer, where docker-compose was corrected to install Remnanode for Remnawave version 2.6.2 and higher
+> [!CAUTION]
+> This is a modification of the main installer, where docker-compose was corrected to install Remnanode for Remnawave version **2.6.2** and higher
 
 Automated installer for [Remnawave Panel](https://docs.rw/) — VPN/proxy management system with Docker and Caddy.
 
