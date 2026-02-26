@@ -4,6 +4,8 @@
 
 [Читать на русском](README.ru.md)
 
+This is a modification of the main installer, where docker-compose was corrected to install Remnanode for Remnawave version 2.6.2 and higher
+
 Automated installer for [Remnawave Panel](https://docs.rw/) — VPN/proxy management system with Docker and Caddy.
 
 > [!CAUTION]
@@ -12,7 +14,7 @@ Automated installer for [Remnawave Panel](https://docs.rw/) — VPN/proxy manage
 ## Quick Start
 
 ```bash
-sudo bash -c "$(curl -sL https://raw.githubusercontent.com/xxphantom/remnawave-installer/main/install.sh)" @ --lang=en
+sudo bash -c "$(curl -sL https://raw.githubusercontent.com/nevoservice/remnawave-installer/main/install.sh)" @ --lang=en
 ```
 
 ## Features
