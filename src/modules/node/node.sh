@@ -55,6 +55,12 @@ services:
             - SECRET_KEY="$certificate"
         volumes:
             - /dev/shm:/dev/shm
+        cap_add:
+          - NET_ADMIN
+        ulimits:
+          nofile:
+            soft: 1048576
+            hard: 1048576
         logging:
             driver: 'json-file'
             options:
