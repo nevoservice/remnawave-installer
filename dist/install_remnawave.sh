@@ -74,7 +74,7 @@ else
 fi
 
 REMNAWAVE_BACKEND_REPO="https://raw.githubusercontent.com/remnawave/backend/refs/heads"
-INSTALLER_REPO="https://raw.githubusercontent.com/xxphantom/remnawave-installer/refs/heads"
+INSTALLER_REPO="https://raw.githubusercontent.com/nevoservice/remnawave-installer/refs/heads"
 
 REMNAWAVE_DIR="/opt/remnawave"
 REMNANODE_DIR="/opt/remnanode"
@@ -123,7 +123,7 @@ TRANSLATIONS_EN[error_passwords_no_match]="Passwords do not match. Please try ag
 TRANSLATIONS_EN[error_enter_yn]="Please enter 'y' or 'n'."
 TRANSLATIONS_EN[error_enter_number_between]="Please enter a number between"
 
-TRANSLATIONS_EN[main_menu_title]="Remnawave Panel Installer by uphantom v"
+TRANSLATIONS_EN[main_menu_title]="Remnawave Panel Installer by uphantom v (forked from nevoservice, supported node 2.6.0)"
 TRANSLATIONS_EN[main_menu_script_branch]="Script branch:"
 TRANSLATIONS_EN[main_menu_panel_branch]="Panel branch:"
 TRANSLATIONS_EN[main_menu_install_components]="Install Panel/Node"
