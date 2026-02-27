@@ -78,7 +78,7 @@ fi
 
 # GitHub repository URLs
 REMNAWAVE_BACKEND_REPO="https://raw.githubusercontent.com/remnawave/backend/refs/heads"
-INSTALLER_REPO="https://raw.githubusercontent.com/xxphantom/remnawave-installer/refs/heads"
+INSTALLER_REPO="https://raw.githubusercontent.com/nevoservice/remnawave-installer/refs/heads"
 
 # Main directories
 REMNAWAVE_DIR="/opt/remnawave"
