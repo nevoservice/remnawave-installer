@@ -21,7 +21,7 @@ for arg in "$@"; do
 done
 
 TEMP_SCRIPT=$(mktemp /tmp/remnawave_installer_XXXXXX.sh)
-if ! curl -sL "https://raw.githubusercontent.com/xxphantom/remnawave-installer/refs/heads/$INSTALLER_BRANCH/dist/install_remnawave.sh" -o "$TEMP_SCRIPT"; then
+if ! curl -sL "https://raw.githubusercontent.com/nevoservice/remnawave-installer/refs/heads/$INSTALLER_BRANCH/dist/install_remnawave.sh" -o "$TEMP_SCRIPT"; then
     echo "Error: Failed to download installer script"
     rm -f "$TEMP_SCRIPT" 2>/dev/null
     exit 1
