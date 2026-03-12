@@ -5933,6 +5933,8 @@ create_node_docker_compose() {
     mkdir -p "$REMNANODE_DIR"
     cd "$REMNANODE_DIR"
 
+    echo "Creating modified Remnanode service.."
+
     cat >docker-compose.yml <<EOF
 services:
     remnanode:
@@ -5946,6 +5948,12 @@ services:
             - SECRET_KEY="$certificate"
         volumes:
             - /dev/shm:/dev/shm
+        cap_add:
+          - NET_ADMIN
+        ulimits:
+          nofile:
+            soft: 1048576
+            hard: 1048576
         logging:
             driver: 'json-file'
             options:
@@ -6165,6 +6173,12 @@ services:
             - SECRET_KEY="$pubkey"
         volumes:
             - /dev/shm:/dev/shm
+        cap_add:
+          - NET_ADMIN
+        ulimits:
+          nofile:
+            soft: 1048576
+            hard: 1048576
         network_mode: host
         logging:
             driver: 'json-file'
